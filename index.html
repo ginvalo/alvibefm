@@ -1,25 +1,4 @@
-<<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#ff0000">
 
-<script>
-  // Reģistrējam PWA servisa strādnieku
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js');
-    });
-  }
-
-  // Pasargājam audio no apstāšanās izslēgtā ekrānā (Media Session)
-  if ('mediaSession' in navigator) {
-    navigator.mediaSession.metadata = new MediaMetadata({
-      title: 'Alvibe FM',
-      artist: 'Tiešraide',
-      artwork: [
-        { src: '1793047512009.jpg', sizes: '512x512', type: 'image/jpeg' }
-      ]
-    });
-  }
-</script>
 !DOCTYPE html>
 <html lang="lv">
 <head>
@@ -399,6 +378,43 @@
         });
 
         loadRandomTrack();
-    </script>
+    </script><link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ff0000">
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js');
+    });
+  }
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: 'Alvibe FM',
+      artist: 'Tiešraide',
+      artwork: [
+        { src: '1793047512009.jpg', sizes: '512x512', type: 'image/jpeg' }
+      ]
+    });
+  }
+</script>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#ff0000">
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js');
+    });
+  }
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: 'Alvibe FM',
+      artist: 'Tiešraide',
+      artwork: [
+        { src: '1793047512009.jpg', sizes: '512x512', type: 'image/jpeg' }
+      ]
+    });
+  }
+
+</script>
+
 </body>
 </html>
