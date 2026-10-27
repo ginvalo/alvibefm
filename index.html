@@ -3,47 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AL VIBE FM | 24/7 Radio Stream</title>
+    <title>AL VIBE FM — 24/7 Radio</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
         body {
-            background-color: #0b0c10;
-            color: #c5c6c7;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
             text-align: center;
+            padding: 20px;
         }
-        h1 {
-            color: #66fcf1;
-            font-size: 3rem;
-            letter-spacing: 4px;
-            margin-bottom: 10px;
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 100%;
         }
-        p {
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #ff007f, #7928ca);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+        .badge {
+            display: inline-block;
+            background: #ff007f;
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 4px 12px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .track-info {
+            margin-bottom: 25px;
+        }
+        .track-title {
             font-size: 1.2rem;
-            color: #45a29e;
-            margin-bottom: 30px;
+            font-weight: 600;
+            color: #e0e0e0;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .btn {
+            background: #7928ca;
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(121, 40, 202, 0.4);
+        }
+        .btn:hover {
+            background: #ff007f;
+            transform: scale(1.05);
+        }
+        .btn-main {
+            padding: 16px 32px;
+            font-size: 1.2rem;
+            font-weight: bold;
         }
         audio {
-            outline: none;
-            width: 300px;
+            width: 100%;
+            margin-top: 10px;
+            filter: invert(100%) hue-rotate(180deg);
+        }
+        footer {
+            margin-top: 30px;
+            font-size: 0.8rem;
+            color: #888;
         }
     </style>
 </head>
 <body>
 
-    <h1>AL VIBE FM</h1>
-    <p>TIEŠRAIDE 24/7</p>
+    <div class="card">
+        <div class="logo">AL VIBE FM</div>
+        <div class="badge">● TIEŠRAIDE 24/7</div>
 
-    <!-- Audio atskaņotājs ar tavu Archive.org saiti -->
-    <audio controls autoplay loop id="radioPlayer">
-        <source src="https://archive.org/download/radio-night-song/Radio%20night%20song.mp3" type="audio/mpeg">
-        Jūsu pārlūks neatbalsta audio atskaņotāju.
-    </audio>
+        <div class="track-info">
+            <div class="track-title" id="trackName">Ielādē mūziku...</div>
+        </div>
 
+        <div class="controls">
+            <button class="btn" onclick="prevTrack()">⏮ Atpakaļ</button>
+            <button class="btn btn-main" id="playBtn" onclick="togglePlay()">▶ Atskaņot</button>
+            <button class="btn" onclick="nextTrack()">Nākamā ⏭</button>
+        </div>
+
+        <audio id="audioPlayer" controls></audio>
+    </div>
+
+    <footer>&copy; 2026 AL VIBE FM — Visas tiesības aizsargātas</footer>
+
+    <script>
+        // Šeit sarakstā vari vienkārši kopēt un likt iekšā visas savas Archive.org dziesmu saites!
+        const playlist = [
+            {
+                title: "AL VIBE FM — Sākuma Dziesma 1",
+                url: "TE_IELĪMĒ_SAVU_ARCHIVE_ORG_AUDIO_SAITI_1"
+            },
+            {
+                title: "AL VIBE FM — Dziesma 2",
+                url: "TE_IELĪMĒ_SAVU_ARCHIVE_ORG_AUDIO_SAITI_2"
+            }
+        ];
+
+        let currentTrack = 0;
+        const player = document.getElementById('audioPlayer');
+        const trackName = document.getElementById('trackName');
+        const playBtn = document.getElementById('playBtn');
+
+        function loadTrack(index) {
+            if (playlist.length > 0 && playlist[index].url.startsWith("http")) {
+                player.src = playlist[index].url;
+                trackName.innerText = playlist[index].title;
+            } else {
+                trackName.innerText = "Pievieno dziesmu saites kodā!";
+            }
+        }
+
+        function togglePlay() {
+            if (player.paused) {
+                player.play();
+                playBtn.innerText = "⏸ Pauze";
+            } else {
+                player.pause();
+                playBtn.innerText = "▶ Atskaņot";
+            }
+        }
+
+        function nextTrack() {
+            currentTrack = (currentTrack + 1) % playlist.length;
+            loadTrack(currentTrack);
+            player.play();
+            playBtn.innerText = "⏸ Pauze";
+        }
+
+        function prevTrack() {
+            currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+            loadTrack(currentTrack);
+            player.play();
+            playBtn.innerText = "⏸ Pauze";
+        }
+
+        // Kad dziesma beidzas, automātiski slēdzas nākamā!
+        player.addEventListener('ended', nextTrack);
+
+        // Ielādē pirmo dziesmu
+        loadTrack(currentTrack);
+    </script>
 </body>
 </html>
