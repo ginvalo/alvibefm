@@ -3,91 +3,353 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alvibe FM - Your Rhythm, Your Music</title>
+    <title>AL VIBE FM — Your Rhythm. Your Music.</title>
     
-    <!-- PWA manifest and theme -->
+    <meta name="description" content="AL VIBE FM — 24/7 continuous music radio. Created by GINVALO.">
+    <meta name="keywords" content="AL VIBE FM, GINVALO, radio, 24/7, online radio, music stream">
+
+    <!-- PWA Manifest & Theme -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#ff0000">
-    
+    <meta name="theme-color" content="#0f172a">
+
     <style>
-        body {
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-color: #0b0f19;
-            color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #1e293b, #0f172a, #090d16);
+            color: #fff;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            height: 100vh;
-            text-align: center;
-        }
-        .container {
             padding: 20px;
-            max-width: 400px;
-            width: 100%;
         }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 5px;
-            background: linear-gradient(45deg, #ff8a00, #e52e71);
+        .top-bar {
+            width: 100%;
+            max-width: 440px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            padding: 10px 5px;
+        }
+        .clock {
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #38bdf8;
+        }
+        .live-badge {
+            background: #ef4444;
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 35px 25px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            max-width: 440px;
+            width: 100%;
+            margin: auto 0;
+        }
+        .brand-container {
+            margin-bottom: 25px;
+        }
+        .logo {
+            font-size: 2.3rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #f59e0b, #38bdf8, #f43f5e);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
         }
-        p {
-            color: #a0aec0;
-            margin-bottom: 30px;
+        .tagline {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .track-box {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .track-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            text-align: left;
+            word-break: break-word;
+            flex-grow: 1;
+            padding-right: 10px;
+        }
+        .like-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+            outline: none;
+        }
+        .like-btn:hover {
+            transform: scale(1.2);
         }
         audio {
             width: 100%;
-            margin-top: 20px;
+            margin-top: 5px;
+            opacity: 0.8;
         }
-        .footer {
-            margin-top: 40px;
+        .install-box {
+            background: rgba(56, 189, 248, 0.05);
+            border: 1px dashed rgba(56, 189, 248, 0.3);
+            border-radius: 14px;
+            padding: 15px;
+            margin-top: 25px;
+            font-size: 0.8rem;
+            color: #cbd5e1;
+            text-align: left;
+        }
+        .install-box h4 {
+            color: #38bdf8;
+            margin-bottom: 6px;
             font-size: 0.85rem;
-            color: #718096;
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #64748b;
+            text-align: center;
+            line-height: 1.5;
             letter-spacing: 1px;
             text-transform: uppercase;
+        }
+        footer b {
+            color: #f43f5e;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>AL VIBE FM</h1>
-        <p>Your Rhythm. Your Music. Live Stream.</p>
-        
-        <!-- Audio Stream Player (Autoplay enabled, controls active) -->
-        <audio id="radioStream" controls autoplay src="https://alvibefm.com/stream"></audio>
+    <div class="top-bar">
+        <div class="clock" id="clock">00:00:00</div>
+        <div class="live-badge">● LIVE STREAM</div>
+    </div>
 
-        <div class="footer">
-            Made by GINVALO
+    <div class="card">
+        <div class="brand-container">
+            <div class="logo">AL VIBE FM</div>
+            <div class="tagline">Your rhythm. Your music.</div>
+        </div>
+
+        <div class="track-box">
+            <div class="track-title" id="trackName">Loading music stream...</div>
+            <button class="like-btn" id="likeBtn" onclick="toggleLike()" title="Like">🤍</button>
+        </div>
+
+        <!-- Audio Player (Autoplay enabled, continuous playback) -->
+        <audio id="audioPlayer" controls autoplay preload="auto"></audio>
+        <audio id="nextAudioPlayer" preload="auto" style="display:none;"></audio>
+
+        <div class="install-box">
+            <h4>📱 Save Radio to Phone:</h4>
+            Tap the <b>three dots (⋮)</b> in your browser menu and select <b>"Add to Home Screen"</b> to install as an app!
         </div>
     </div>
 
+    <footer>
+        MADE BY <b>GINVALO</b><br>
+        &copy; 2026 AL VIBE FM. All rights reserved.
+    </footer>
+
     <script>
-        // Register PWA Service Worker
+        // PWA Service Worker Registration
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')
-                    .then(reg => console.log('Service Worker registered!', reg))
+                    .then(reg => console.log('Service Worker registered successfully!', reg))
                     .catch(err => console.log('Service Worker registration failed:', err));
             });
         }
 
-        // Keep audio playing in background / lock screen via Media Session API
-        if ('mediaSession' in navigator) {
-            navigator.mediaSession.metadata = new MediaMetadata({
-                title: 'Alvibe FM Live',
-                artist: 'Made by GINVALO',
-                album: 'Live Radio Stream',
-                artwork: [
-                    { src: '1793047512009.jpg', sizes: '512x512', type: 'image/jpeg' }
-                ]
-            });
-        }
-    </script>
+        const baseUrl = "https://archive.org/download/al-vibe-fm-playlist/";
 
+        const playlist = [
+            { title: "All Roads Lead To Disco", file: "All%20Roads%20Lead%20To%20Disco.mp3" },
+            { title: "Beyonce The Fog", file: "Beyonce%20The%20Fog.mp3" },
+            { title: "Celebramos La Vida", file: "Celebramos%20La%20Vida.mp3" },
+            { title: "Chop Chop Lollipop", file: "Chop%20Chop%20Lollipop.mp3" },
+            { title: "Deluvision", file: "Deluvision.mp3" },
+            { title: "Dream Way", file: "Dream%20Way.mp3" },
+            { title: "Every Day Like A Prize", file: "Every%20Day%20Like%20A%20Prize.mp3" },
+            { title: "Feel The Power", file: "Feel%20The%20Power%20Original%20Remix.mp3" },
+            { title: "Heartbeat Anthem", file: "Heartbeat%20Anthem.mp3" },
+            { title: "Hey Hey Hey", file: "Hey%20Hey%20Hey.mp3" },
+            { title: "I Fall In My Dreams", file: "I%20Fall%20In%20My%20Dreams.mp3" },
+            { title: "I'll Make It Anyway", file: "I%27ll%20Make%20It%20Anyway.mp3" },
+            { title: "In That Summer", file: "In%20That%20Summer.mp3" },
+            { title: "Infinitra", file: "Infinitra.mp3" },
+            { title: "MAGIC AMULET", file: "MAGIC%20AMULET.mp3" },
+            { title: "Mars", file: "Mars.mp3" },
+            { title: "Miami Beach Remix", file: "Miami%20Beach%20Remix.mp3" },
+            { title: "Mirror Games", file: "Mirror%20Games.mp3" },
+            { title: "NIGHTLIFE", file: "NIGTLIFE.mp3" },
+            { title: "Night Dreams", file: "Night%20Dreams.mp3" },
+            { title: "Night Lounge", file: "Night%20Lounge.mp3" },
+            { title: "Night Walk", file: "Night%20Walk.mp3" },
+            { title: "Night Song", file: "Night%20song.mp3" },
+            { title: "No Brakes", file: "No%20Brakes.mp3" },
+            { title: "No Call, No Goodbye", file: "No%20Call%2CNo%20Goodbye.mp3" },
+            { title: "Noctivibe", file: "Noctivibe.mp3" },
+            { title: "Party All Night", file: "Party%20All%20Night.mp3" },
+            { title: "Phoryn", file: "Phoryn.mp3" },
+            { title: "Random", file: "Random.mp3" },
+            { title: "Rise Unbound", file: "Rise%20Unbound.mp3" },
+            { title: "Shadows Without You", file: "Shadows%20Without%20You.mp3" },
+            { title: "Somewhere In Silence", file: "Somewhere%20in%20silence.mp3" },
+            { title: "Soul Tide", file: "Soul%20Tide.mp3" },
+            { title: "Sprin", file: "Sprin.mp3" },
+            { title: "Stay The Same", file: "Stay%20The%20Same.mp3" },
+            { title: "Still I Stay", file: "Still%20I%20Stay.mp3" },
+            { title: "Summer Rings", file: "Summer%20Rings.mp3" },
+            { title: "Sunglasses & Sunlight", file: "Sunglasses%20%26%20Sunlight.mp3" },
+            { title: "Sunshine", file: "Sunshine.mp3" },
+            { title: "THEY", file: "THEY.mp3" },
+            { title: "Test", file: "Test.mp3" },
+            { title: "To The Moon", file: "To%20The%20Moon.mp3" },
+            { title: "Tropical House", file: "Tropical%20House.mp3" },
+            { title: "UNKNOWN", file: "UNKNOWN.mp3" },
+            { title: "Under My Wings", file: "Under%20My%20Wings.mp3" },
+            { title: "Unfelt", file: "Unfelt.mp3" },
+            { title: "Walk In The Dark", file: "Walk%20In%20The%20Dark.mp3" },
+            { title: "Walk", file: "Walk.mp3" },
+            { title: "Waves and Wonder", file: "Waves%20and%20Wonder.mp3" },
+            { title: "We Do What We Want", file: "We%20Do%20What%20We%20Want.mp3" },
+            { title: "Weekendstate", file: "Weekendstate.mp3" },
+            { title: "Wind In You", file: "Wind%20InYou.mp3" },
+            { title: "You Stole My Heart", file: "You%20stole%20my%20hearth.mp3" }
+        ];
+
+        let currentTrackIndex = -1;
+        let nextTrackIndex = -1;
+        let likedTracks = JSON.parse(localStorage.getItem('alvibefm_likes')) || [];
+
+        const player = document.getElementById('audioPlayer');
+        const nextPlayer = document.getElementById('nextAudioPlayer');
+        const trackName = document.getElementById('trackName');
+        const likeBtn = document.getElementById('likeBtn');
+        const clockEl = document.getElementById('clock');
+
+        function updateClock() {
+            const now = new Date();
+            clockEl.innerText = now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        function getRandomIndex(excludeIndex) {
+            let index;
+            do {
+                index = Math.floor(Math.random() * playlist.length);
+            } while (index === excludeIndex && playlist.length > 1);
+            return index;
+        }
+
+        function prepareNextTrack() {
+            nextTrackIndex = getRandomIndex(currentTrackIndex);
+            nextPlayer.src = baseUrl + playlist[nextTrackIndex].file;
+        }
+
+        function updateLikeButton() {
+            if (currentTrackIndex === -1) return;
+            const currentFile = playlist[currentTrackIndex].file;
+            if (likedTracks.includes(currentFile)) {
+                likeBtn.innerText = "❤️";
+            } else {
+                likeBtn.innerText = "🤍";
+            }
+        }
+
+        function toggleLike() {
+            if (currentTrackIndex === -1) return;
+            const currentFile = playlist[currentTrackIndex].file;
+            const index = likedTracks.indexOf(currentFile);
+            
+            if (index > -1) {
+                likedTracks.splice(index, 1);
+            } else {
+                likedTracks.push(currentFile);
+            }
+            localStorage.getItem('alvibefm_likes')
+            localStorage.setItem('alvibefm_likes', JSON.stringify(likedTracks));
+            updateLikeButton();
+        }
+
+        function updateMediaSession(trackTitle) {
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: trackTitle,
+                    artist: 'MADE BY GINVALO',
+                    album: 'AL VIBE FM Stream',
+                    artwork: [
+                        { src: '1793047512009.jpg', sizes: '512x512', type: 'image/jpeg' }
+                    ]
+                });
+            }
+        }
+
+        function loadRandomTrack() {
+            if (nextTrackIndex !== -1 && nextPlayer.src) {
+                currentTrackIndex = nextTrackIndex;
+                player.src = nextPlayer.src;
+            } else {
+                currentTrackIndex = getRandomIndex(-1);
+                player.src = baseUrl + playlist[currentTrackIndex].file;
+            }
+            const currentTitle = playlist[currentTrackIndex].title;
+            trackName.innerText = currentTitle;
+            updateLikeButton();
+            updateMediaSession(currentTitle);
+            prepareNextTrack();
+        }
+
+        function playNext() {
+            loadRandomTrack();
+            player.play().catch(e => console.log('Autoplay prevented until user interaction'));
+        }
+
+        player.addEventListener('ended', () => {
+            playNext();
+        });
+
+        // Initial setup
+        loadRandomTrack();
+    </script>
 </body>
 </html>
