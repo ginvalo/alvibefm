@@ -222,13 +222,17 @@
 
         const playlist = [
             { title: "All Roads Lead To Disco", file: "All%20Roads%20Lead%20To%20Disco.mp3" },
+            { title: "Beyonce The Fog (Dream Trance Remix)", file: "Beyonce%20The%20Fog.%20Dream%20Trance%20Remix.wav" },
+            { title: "Beyonce The Fog (Original Remix)", file: "Beyonce%20The%20Fog.Original%20Remix.wav" },
             { title: "Beyonce The Fog", file: "Beyonce%20The%20Fog.mp3" },
             { title: "Celebramos La Vida", file: "Celebramos%20La%20Vida.mp3" },
             { title: "Chop Chop Lollipop", file: "Chop%20Chop%20Lollipop.mp3" },
             { title: "Deluvision", file: "Deluvision.mp3" },
             { title: "Dream Way", file: "Dream%20Way.mp3" },
+            { title: "Étoiles Dans Les Yeux", file: "%C3%89toiles%20Dans%20Les%20Yeux.mp3" },
             { title: "Every Day Like A Prize", file: "Every%20Day%20Like%20A%20Prize.mp3" },
-            { title: "Feel The Power", file: "Feel%20The%20Power%20Original%20Remix.mp3" },
+            { title: "Feel The Power (Original Remix)", file: "Feel%20The%20Power%20Original%20Remix.mp3" },
+            { title: "Good Life (Instrumental)", file: "Good%20Life%20Instrumental.wav" },
             { title: "Heartbeat Anthem", file: "Heartbeat%20Anthem.mp3" },
             { title: "Hey Hey Hey", file: "Hey%20Hey%20Hey.mp3" },
             { title: "I Fall In My Dreams", file: "I%20Fall%20In%20My%20Dreams.mp3" },
@@ -238,6 +242,7 @@
             { title: "MAGIC AMULET", file: "MAGIC%20AMULET.mp3" },
             { title: "Mars", file: "Mars.mp3" },
             { title: "Miami Beach Remix", file: "Miami%20Beach%20Remix.mp3" },
+            { title: "Mirror Games (Instrumental)", file: "Mirror%20Games.Instrumental.mp3" },
             { title: "Mirror Games", file: "Mirror%20Games.mp3" },
             { title: "NIGHTLIFE", file: "NIGTLIFE.mp3" },
             { title: "Night Dreams", file: "Night%20Dreams.mp3" },
@@ -248,17 +253,21 @@
             { title: "No Call, No Goodbye", file: "No%20Call%2CNo%20Goodbye.mp3" },
             { title: "Noctivibe", file: "Noctivibe.mp3" },
             { title: "Party All Night", file: "Party%20All%20Night.mp3" },
+            { title: "Phoryn (Instrumental)", file: "Phoryn.Instrumental.mp3" },
             { title: "Phoryn", file: "Phoryn.mp3" },
             { title: "Random", file: "Random.mp3" },
             { title: "Rise Unbound", file: "Rise%20Unbound.mp3" },
             { title: "Shadows Without You", file: "Shadows%20Without%20You.mp3" },
+            { title: "Shine So Bright!", file: "Shine%20So%20Bright%20%21.mp3" },
             { title: "Somewhere In Silence", file: "Somewhere%20in%20silence.mp3" },
+            { title: "Soul Tide (Instrumental)", file: "Soul%20Tide%20Instrumental.mp3" },
             { title: "Soul Tide", file: "Soul%20Tide.mp3" },
             { title: "Sprin", file: "Sprin.mp3" },
             { title: "Stay The Same", file: "Stay%20The%20Same.mp3" },
             { title: "Still I Stay", file: "Still%20I%20Stay.mp3" },
             { title: "Summer Rings", file: "Summer%20Rings.mp3" },
             { title: "Sunglasses & Sunlight", file: "Sunglasses%20%26%20Sunlight.mp3" },
+            { title: "Sunrise In My Soul", file: "Sunrise%20In%20My%20Soul.wav" },
             { title: "Sunshine", file: "Sunshine.mp3" },
             { title: "THEY", file: "THEY.mp3" },
             { title: "Test", file: "Test.mp3" },
@@ -266,6 +275,7 @@
             { title: "Tropical House", file: "Tropical%20House.mp3" },
             { title: "UNKNOWN", file: "UNKNOWN.mp3" },
             { title: "Under My Wings", file: "Under%20My%20Wings.mp3" },
+            { title: "Unfelt (Instrumental)", file: "Unfelt.%20Instrumental.mp3" },
             { title: "Unfelt", file: "Unfelt.mp3" },
             { title: "Walk In The Dark", file: "Walk%20In%20The%20Dark.mp3" },
             { title: "Walk", file: "Walk.mp3" },
@@ -287,6 +297,7 @@
         const likeBtn = document.getElementById('likeBtn');
         const clockEl = document.getElementById('clock');
 
+        // Dzīvais pulkstenis
         function updateClock() {
             const now = new Date();
             clockEl.innerText = now.toLocaleTimeString('lv-LV');
