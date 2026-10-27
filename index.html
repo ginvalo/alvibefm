@@ -1,9 +1,13 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="lv">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AL VIBE FM — 24/7 Radio</title>
+    <title>AL VIBE FM — Tavs ritms. Tava mūzika.</title>
+    
+    <meta name="description" content="AL VIBE FM — 24/7 tiešraides mūzikas radio. Izveidoja GINVALO.">
+    <meta name="keywords" content="AL VIBE FM, GINVALO, radio, 24/7, online radio, mūzika">
+
     <style>
         * {
             box-sizing: border-box;
@@ -12,23 +16,356 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         body {
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            background: linear-gradient(135deg, #1e293b, #0f172a, #090d16);
             color: #fff;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            text-align: center;
             padding: 20px;
         }
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 40px 30px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            max-width: 420px;
+        .top-bar {
             width: 100%;
-        } Without You", file: "Shadows%20Without%20You.mp3" },
+            max-width: 440px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            padding: 10px 5px;
+        }
+        .clock {
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #38bdf8;
+        }
+        .live-badge {
+            background: #ef4444;
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 35px 25px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            max-width: 440px;
+            width: 100%;
+            margin: auto 0;
+        }
+        .brand-container {
+            margin-bottom: 25px;
+        }
+        .logo {
+            font-size: 2.3rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #f59e0b, #38bdf8, #f43f5e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
+        }
+        .tagline {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .track-box {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .track-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            text-align: left;
+            word-break: break-word;
+            flex-grow: 1;
+            padding-right: 10px;
+        }
+        .like-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+            outline: none;
+        }
+        .like-btn:hover {
+            transform: scale(1.2);
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background: #334155;
+            border: none;
+            color: white;
+            padding: 12px 22px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background: #475569;
+        }
+        .btn-main {
+            background: linear-gradient(135deg, #38bdf8, #2563eb);
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+        }
+        .btn-main:hover {
+            background: linear-gradient(135deg, #0ea5e9, #1d4ed8);
+            transform: scale(1.03);
+        }
+        audio {
+            width: 100%;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+        .install-box {
+            background: rgba(56, 189, 248, 0.05);
+            border: 1px dashed rgba(56, 189, 248, 0.3);
+            border-radius: 14px;
+            padding: 15px;
+            margin-top: 25px;
+            font-size: 0.8rem;
+            color: #cbd5e1;
+            text-align: left;
+        }
+        .install-box h4 {
+            color: #38bdf8;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: #64748b;
+            text-align: center;
+            line-height: 1.5;
+        }
+        footer span {
+            color: #f43f5e;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="clock" id="clock">00:00:00</div>
+        <div class="live-badge">● TIEŠRAIDE</div>
+    </div>
+
+    <div class="card">
+        <div class="brand-container">
+            <div class="logo">AL VIBE FM</div>
+            <div class="tagline">Tavs ritms. Tava mūzika.</div>
+        </div>
+
+        <div class="track-box">
+            <div class="track-title" id="trackName">Sagatavo mūziku...</div>
+            <button class="like-btn" id="likeBtn" onclick="toggleLike()" title="Patīk">🤍</button>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-main" id="playBtn" onclick="togglePlay()">▶ Atskaņot</button>
+            <button class="btn" onclick="nextRandomTrack()">Nākamā ⏭</button>
+        </div>
+
+        <audio id="audioPlayer" controls preload="auto"></audio>
+        <audio id="nextAudioPlayer" preload="auto" style="display:none;"></audio>
+
+        <div class="install-box">
+            <h4>📱 Saglabā radio telefonā:</h4>
+            Spied uz <b>trim punktiem (⋮)</b> pārlūkprogrammas augšējā stūrī un izvēlies <b>„Pievienot sākuma ekrānam”</b>, lai piekļūtu kā lietotnei!
+        </div>
+    </div>
+
+    <footer>
+        Radīts ar kaislību un enerģiju — izveidoja <b>GINVALO</b><br>
+        &copy; 2026 AL VIBE FM. Visas tiesības aizsargātas.
+    </footer>
+
+    <script>
+        const baseUrl = "https://archive.org/download/al-vibe-fm-playlist/";
+
+        const playlist = [
+            { title: "All Roads Lead To Disco", file: "All%20Roads%20Lead%20To%20Disco.mp3" },
+            { title: "Beyonce The Fog", file: "Beyonce%20The%20Fog.mp3" },
+            { title: "Celebramos La Vida", file: "Celebramos%20La%20Vida.mp3" },
+            { title: "Chop Chop Lollipop", file: "Chop%20Chop%20Lollipop.mp3" },
+            { title: "Deluvision", file: "Deluvision.mp3" },
+            { title: "Dream Way", file: "Dream%20Way.mp3" },
+            { title: "Every Day Like A Prize", file: "Every%20Day%20Like%20A%20Prize.mp3" },
+            { title: "Feel The Power", file: "Feel%20The%20Power%20Original%20Remix.mp3" },
+            { title: "Heartbeat Anthem", file: "Heartbeat%20Anthem.mp3" },
+            { title: "Hey Hey Hey", file: "Hey%20Hey%20Hey.mp3" },
+            { title: "I Fall In My Dreams", file: "I%20Fall%20In%20My%20Dreams.mp3" },
+            { title: "I'll Make It Anyway", file: "I%27ll%20Make%20It%20Anyway.mp3" },
+            { title: "In That Summer", file: "In%20That%20Summer.mp3" },
+            { title: "Infinitra", file: "Infinitra.mp3" },
+            { title: "MAGIC AMULET", file: "MAGIC%20AMULET.mp3" },
+            { title: "Mars", file: "Mars.mp3" },
+            { title: "Miami Beach Remix", file: "Miami%20Beach%20Remix.mp3" },
+            { title: "Mirror Games", file: "Mirror%20Games.mp3" },
+            { title: "NIGHTLIFE", file: "NIGTLIFE.mp3" },
+            { title: "Night Dreams", file: "Night%20Dreams.mp3" },
+            { title: "Night Lounge", file: "Night%20Lounge.mp3" },
+            { title: "Night Walk", file: "Night%20Walk.mp3" },
+            { title: "Night Song", file: "Night%20song.mp3" },
+            { title: "No Brakes", file: "No%20Brakes.mp3" },
+            { title: "No Call, No Goodbye", file: "No%20Call%2CNo%20Goodbye.mp3" },
+            { title: "Noctivibe", file: "Noctivibe.mp3" },
+            { title: "Party All Night", file: "Party%20All%20Night.mp3" },
+            { title: "Phoryn", file: "Phoryn.mp3" },
+            { title: "Random", file: "Random.mp3" },
+            { title: "Rise Unbound", file: "Rise%20Unbound.mp3" },
+            { title: "Shadows Without You", file: "Shadows%20Without%20You.mp3" },
+            { title: "Somewhere In Silence", file: "Somewhere%20in%20silence.mp3" },
+            { title: "Soul Tide", file: "Soul%20Tide.mp3" },
+            { title: "Sprin", file: "Sprin.mp3" },
+            { title: "Stay The Same", file: "Stay%20The%20Same.mp3" },
+            { title: "Still I Stay", file: "Still%20I%20Stay.mp3" },
+            { title: "Summer Rings", file: "Summer%20Rings.mp3" },
+            { title: "Sunglasses & Sunlight", file: "Sunglasses%20%26%20Sunlight.mp3" },
+            { title: "Sunshine", file: "Sunshine.mp3" },
+            { title: "THEY", file: "THEY.mp3" },
+            { title: "Test", file: "Test.mp3" },
+            { title: "To The Moon", file: "To%20The%20Moon.mp3" },
+            { title: "Tropical House", file: "Tropical%20House.mp3" },
+            { title: "UNKNOWN", file: "UNKNOWN.mp3" },
+            { title: "Under My Wings", file: "Under%20My%20Wings.mp3" },
+            { title: "Unfelt", file: "Unfelt.mp3" },
+            { title: "Walk In The Dark", file: "Walk%20In%20The%20Dark.mp3" },
+            { title: "Walk", file: "Walk.mp3" },
+            { title: "Waves and Wonder", file: "Waves%20and%20Wonder.mp3" },
+            { title: "We Do What We Want", file: "We%20Do%20What%20We%20Want.mp3" },
+            { title: "Weekendstate", file: "Weekendstate.mp3" },
+            { title: "Wind In You", file: "Wind%20InYou.mp3" },
+            { title: "You Stole My Heart", file: "You%20stole%20my%20hearth.mp3" }
+        ];
+
+        let currentTrackIndex = -1;
+        let nextTrackIndex = -1;
+        let likedTracks = JSON.parse(localStorage.getItem('alvibefm_likes')) || [];
+
+        const player = document.getElementById('audioPlayer');
+        const nextPlayer = document.getElementById('nextAudioPlayer');
+        const trackName = document.getElementById('trackName');
+        const playBtn = document.getElementById('playBtn');
+        const likeBtn = document.getElementById('likeBtn');
+        const clockEl = document.getElementById('clock');
+
+        function updateClock() {
+            const now = new Date();
+            clockEl.innerText = now.toLocaleTimeString('lv-LV');
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        function getRandomIndex(excludeIndex) {
+            let index;
+            do {
+                index = Math.floor(Math.random() * playlist.length);
+            } while (index === excludeIndex && playlist.length > 1);
+            return index;
+        }
+
+        function prepareNextTrack() {
+            nextTrackIndex = getRandomIndex(currentTrackIndex);
+            nextPlayer.src = baseUrl + playlist[nextTrackIndex].file;
+        }
+
+        function updateLikeButton() {
+            if (currentTrackIndex === -1) return;
+            const currentFile = playlist[currentTrackIndex].file;
+            if (likedTracks.includes(currentFile)) {
+                likeBtn.innerText = "❤️";
+            } else {
+                likeBtn.innerText = "🤍";
+            }
+        }
+
+        function toggleLike() {
+            if (currentTrackIndex === -1) return;
+            const currentFile = playlist[currentTrackIndex].file;
+            const index = likedTracks.indexOf(currentFile);
+            
+            if (index > -1) {
+                likedTracks.splice(index, 1);
+            } else {
+                likedTracks.push(currentFile);
+            }
+            localStorage.setItem('alvibefm_likes', JSON.stringify(likedTracks));
+            updateLikeButton();
+        }
+
+        function loadRandomTrack() {
+            if (nextTrackIndex !== -1 && nextPlayer.src) {
+                currentTrackIndex = nextTrackIndex;
+                player.src = nextPlayer.src;
+            } else {
+                currentTrackIndex = getRandomIndex(-1);
+                player.src = baseUrl + playlist[currentTrackIndex].file;
+            }
+            trackName.innerText = playlist[currentTrackIndex].title;
+            updateLikeButton();
+            prepareNextTrack();
+        }
+
+        function togglePlay() {
+            if (player.paused) {
+                if (!player.src) loadRandomTrack();
+                player.play();
+                playBtn.innerText = "⏸ Pauze";
+            } else {
+                player.pause();
+                playBtn.innerText = "▶ Atskaņot";
+            }
+        }
+
+        function nextRandomTrack() {
+            loadRandomTrack();
+            player.play();
+            playBtn.innerText = "⏸ Pauze";
+        }
+
+        player.addEventListener('ended', () => {
+            nextRandomTrack();
+        });
+
+        loadRandomTrack();
+    </script>
+</body>
+</html>
