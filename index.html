@@ -14,75 +14,47 @@
 
     <!-- PWA Manifest & Theme -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#f0f4ff">
+    <meta name="theme-color" content="#0b0f19">
 
     <style>
-        :root {
-            --bg-gradient: linear-gradient(135deg, #f0f4ff 0%, #e6edff 50%, #f4e8ff 100%);
-            --glass-bg: rgba(255, 255, 255, 0.75);
-            --glass-border: rgba(255, 255, 255, 0.9);
-            --text-main: #1e1b4b;
-            --text-muted: #64748b;
-            --primary: #6366f1;
-            --primary-glow: rgba(99, 102, 241, 0.3);
-            --accent: #ec4899;
-            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
-        }
-
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            scroll-behavior: smooth;
         }
 
         body {
-            background: var(--bg-gradient);
-            color: var(--text-main);
+            background: linear-gradient(135deg, #0b0f19 0%, #1e1b4b 50%, #0f172a 100%);
+            color: #f1f5f9;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
-            padding: 30px 20px;
-            position: relative;
+            padding: 25px 20px;
             overflow-x: hidden;
         }
 
-        /* Fona gaismas efekti (dārgais stils) */
-        .bg-blob {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            border-radius: 50%;
-            filter: blur(80px);
-            z-index: -1;
-            opacity: 0.4;
-        }
-        .blob-1 { top: -100px; left: -100px; background: #c7d2fe; }
-        .blob-2 { top: 40%; right: -150px; background: #f5d0fe; }
-        .blob-3 { bottom: 10%; left: 10%; background: #ddd6fe; }
-
         .top-bar {
             width: 100%;
-            max-width: 600px;
+            max-width: 460px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 0.9rem;
-            color: var(--text-muted);
+            color: #94a3b8;
             padding: 10px 5px;
         }
 
         .clock {
             font-weight: 700;
             letter-spacing: 1px;
-            color: var(--primary);
+            color: #38bdf8;
         }
 
         .live-badge {
-            background: #10b981;
+            background: #ef4444;
             color: #fff;
             font-size: 0.7rem;
             font-weight: 700;
@@ -95,13 +67,13 @@
 
         @keyframes pulse {
             0% { opacity: 1; }
-            50% { opacity: 0.6; }
+            50% { opacity: 0.5; }
             100% { opacity: 1; }
         }
 
         .main-container {
             width: 100%;
-            max-width: 600px;
+            max-width: 460px;
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -109,54 +81,54 @@
         }
 
         .card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            padding: 35px 25px;
-            border-radius: 24px;
-            box-shadow: var(--shadow);
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 30px 25px;
+            border-radius: 28px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
             width: 100%;
+            text-align: center;
         }
 
         .brand-container {
             margin-bottom: 25px;
-            text-align: center;
         }
 
         .logo {
-            font-size: 2.3rem;
+            font-size: 2.4rem;
             font-weight: 800;
             letter-spacing: 1px;
-            background: linear-gradient(135deg, #1e1b4b 0%, #4338ca 100%);
+            background: linear-gradient(135deg, #f59e0b 0%, #38bdf8 50%, #ec4899 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 4px;
         }
 
         .tagline {
-            font-size: 0.85rem;
-            color: var(--text-muted);
+            font-size: 0.8rem;
+            color: #94a3b8;
             letter-spacing: 2px;
             text-transform: uppercase;
             font-weight: 600;
         }
 
         .track-box {
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 14px;
-            padding: 18px 20px;
-            margin-bottom: 20px;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 22px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .track-title {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
-            color: var(--text-main);
+            color: #f1f5f9;
             text-align: left;
             word-break: break-word;
             flex-grow: 1;
@@ -176,37 +148,63 @@
             transform: scale(1.2);
         }
 
-        audio {
-            width: 100%;
-            margin-top: 5px;
-            accent-color: var(--primary);
+        /* Gluds un moderns atskaņotāja pogas dizains */
+        .player-actions {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
         }
 
-        /* Šovu grafika sadaļa */
+        .control-btn {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.4);
+            transition: 0.3s;
+        }
+
+        .control-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 15px 25px rgba(99, 102, 241, 0.6);
+        }
+
+        /* Šovu grafika sadaļa ar reāllaika izgaismojumu */
         .schedule-box {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            padding: 25px;
-            border-radius: 24px;
-            box-shadow: var(--shadow);
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 22px;
+            border-radius: 28px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
             width: 100%;
         }
 
         .section-title {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 700;
             margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 8px;
-            color: var(--text-main);
+            color: #38bdf8;
+            text-align: left;
         }
 
         .schedule-list {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
 
         .schedule-item {
@@ -214,47 +212,52 @@
             justify-content: space-between;
             align-items: center;
             padding: 12px 16px;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 12px;
+            background: rgba(15, 23, 42, 0.4);
+            border-radius: 14px;
             font-size: 0.85rem;
+            color: #94a3b8;
+            border: 1px solid transparent;
+            transition: 0.3s;
         }
 
         .schedule-item.on-air {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(236, 72, 153, 0.15) 100%);
-            border: 1px solid var(--primary);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%);
+            border: 1px solid #6366f1;
+            color: #fff;
             font-weight: 700;
         }
 
         .badge-live-sm {
-            background: #10b981;
+            background: #ef4444;
             color: white;
             font-size: 0.6rem;
-            padding: 2px 6px;
+            padding: 2px 8px;
             border-radius: 20px;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .install-box {
-            background: rgba(99, 102, 241, 0.05);
-            border: 1px dashed rgba(99, 102, 241, 0.3);
+            background: rgba(56, 189, 248, 0.05);
+            border: 1px dashed rgba(56, 189, 248, 0.3);
             border-radius: 14px;
-            padding: 15px;
+            padding: 14px;
             margin-top: 20px;
             font-size: 0.8rem;
-            color: var(--text-muted);
+            color: #cbd5e1;
             text-align: left;
         }
 
         .install-box h4 {
-            color: var(--primary);
-            margin-bottom: 6px;
+            color: #38bdf8;
+            margin-bottom: 4px;
             font-size: 0.85rem;
         }
 
         footer {
-            margin-top: 30px;
+            margin-top: 20px;
             font-size: 0.8rem;
-            color: var(--text-muted);
+            color: #64748b;
             text-align: center;
             line-height: 1.5;
             letter-spacing: 1px;
@@ -262,24 +265,20 @@
         }
 
         footer b {
-            color: var(--primary);
+            color: #f43f5e;
             font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-blob blob-1"></div>
-    <div class="bg-blob blob-2"></div>
-    <div class="bg-blob blob-3"></div>
-
     <div class="top-bar">
         <div class="clock" id="clock">00:00:00</div>
-        <div class="live-badge">● LIVE STREAM</div>
+        <div class="live-badge" id="topLiveStatus">● OFFLINE</div>
     </div>
 
     <div class="main-container">
-        <!-- Galvenā atskaņotāja kartīte -->
+        <!-- Atskaņotāja Kartīte -->
         <div class="card">
             <div class="brand-container">
                 <div class="logo">AL VIBE FM</div>
@@ -287,13 +286,18 @@
             </div>
 
             <div class="track-box">
-                <div class="track-title" id="trackName">Loading music stream...</div>
+                <div class="track-title" id="trackName">Press Play to Stream</div>
                 <button class="like-btn" id="likeBtn" onclick="toggleLike()" title="Like">🤍</button>
             </div>
 
-            <!-- Audio Player -->
-            <audio id="audioPlayer" controls autoplay preload="auto"></audio>
-            <audio id="nextAudioPlayer" preload="auto" style="display:none;"></audio>
+            <!-- Pareizā Play/Stop Poga (Novērš fonā skanēšanu un gļukus) -->
+            <div class="player-actions">
+                <button class="control-btn" id="mainPlayBtn" onclick="togglePlay()"><i class="fa-solid fa-play" id="playIcon"></i></button>
+            </div>
+
+            <!-- Slēptais Audio Elements -->
+            <audio id="audioPlayer" preload="none"></audio>
+            <audio id="nextAudioPlayer" preload="none" style="display:none;"></audio>
 
             <div class="install-box">
                 <h4>📱 Save Radio to Phone:</h4>
@@ -301,24 +305,25 @@
             </div>
         </div>
 
-        <!-- Šodienas Grafika / Šovu sadaļa -->
+        <!-- Šodienas Grafika ar Reāllaika Automātisko ON AIR -->
         <div class="schedule-box">
-            <div class="section-title"><i class="fa-solid fa-calendar-days" style="color: var(--primary);"></i> Today's Schedule</div>
+            <div class="section-title"><i class="fa-solid fa-calendar-days"></i> Today's Schedule</div>
             <div class="schedule-list">
-                <div class="schedule-item">
+                <div class="schedule-item" id="sched-morning">
                     <span>08:00 - 12:00 Morning Vibe</span>
-                    <span style="color: var(--text-muted);">Pop / Chill</span>
+                    <span class="sched-status" style="color: #94a3b8;">Pop / Chill</span>
                 </div>
-                <div class="schedule-item on-air">
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <span>12:00 - 18:00 Daytime Electronics</span>
-                        <span class="badge-live-sm">On Air</span>
-                    </div>
-                    <span style="color: var(--primary);">EDM / House</span>
+                <div class="schedule-item" id="sched-day">
+                    <span>12:00 - 18:00 Daytime Electronics</span>
+                    <span class="sched-status" style="color: #94a3b8;">EDM / House</span>
                 </div>
-                <div class="schedule-item">
+                <div class="schedule-item" id="sched-night">
                     <span>18:00 - 00:00 Night Trance Special</span>
-                    <span style="color: var(--text-muted);">Trance</span>
+                    <span class="sched-status" style="color: #94a3b8;">Trance</span>
+                </div>
+                <div class="schedule-item" id="sched-late">
+                    <span>00:00 - 08:00 Late Night Lounge</span>
+                    <span class="sched-status" style="color: #94a3b8;">Ambient</span>
                 </div>
             </div>
         </div>
@@ -333,14 +338,11 @@
         // PWA Service Worker Registration
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(reg => console.log('Service Worker registered successfully!', reg))
-                    .catch(err => console.log('Service Worker registration failed:', err));
+                navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW failed', err));
             });
         }
 
         const baseUrl = "https://archive.org/download/al-vibe-fm-playlist/";
-
         const playlist = [
             { title: "All Roads Lead To Disco", file: "All%20Roads%20Lead%20To%20Disco.mp3" },
             { title: "Beyonce The Fog", file: "Beyonce%20The%20Fog.mp3" },
@@ -399,6 +401,7 @@
 
         let currentTrackIndex = -1;
         let nextTrackIndex = -1;
+        let isPlaying = false;
         let likedTracks = JSON.parse(localStorage.getItem('alvibefm_likes')) || [];
 
         const player = document.getElementById('audioPlayer');
@@ -406,13 +409,37 @@
         const trackName = document.getElementById('trackName');
         const likeBtn = document.getElementById('likeBtn');
         const clockEl = document.getElementById('clock');
+        const playIcon = document.getElementById('playIcon');
+        const topLiveStatus = document.getElementById('topLiveStatus');
 
-        function updateClock() {
+        // Reāllaika pulkstenis un automātiskais grafiks
+        function updateClockAndSchedule() {
             const now = new Date();
             clockEl.innerText = now.toLocaleTimeString();
+            const hours = now.getHours();
+
+            // Notīrām visas On Air klases
+            document.querySelectorAll('.schedule-item').forEach(el => {
+                el.classList.remove('on-air');
+                el.querySelector('.sched-status').innerHTML = el.dataset.genre || "Music";
+            });
+
+            // Nosakām pēc stundas, kurš šovs iet ēterā
+            let activeId = '';
+            if (hours >= 8 && hours < 12) activeId = 'sched-morning';
+            else if (hours >= 12 && hours < 18) activeId = 'sched-day';
+            else if (hours >= 18 && hours < 24) activeId = 'sched-night';
+            else activeId = 'sched-late';
+
+            const activeItem = document.getElementById(activeId);
+            if (activeItem) {
+                activeItem.classList.add('on-air');
+                const statusSpan = activeItem.querySelector('.sched-status');
+                statusSpan.innerHTML = '<span class="badge-live-sm">On Air</span>';
+            }
         }
-        setInterval(updateClock, 1000);
-        updateClock();
+        setInterval(updateClockAndSchedule, 1000);
+        updateClockAndSchedule();
 
         function getRandomIndex(excludeIndex) {
             let index;
@@ -430,66 +457,63 @@
         function updateLikeButton() {
             if (currentTrackIndex === -1) return;
             const currentFile = playlist[currentTrackIndex].file;
-            if (likedTracks.includes(currentFile)) {
-                likeBtn.innerText = "❤️";
-            } else {
-                likeBtn.innerText = "🤍";
-            }
+            likeBtn.innerText = likedTracks.includes(currentFile) ? "❤️" : "🤍";
         }
 
         function toggleLike() {
             if (currentTrackIndex === -1) return;
             const currentFile = playlist[currentTrackIndex].file;
             const index = likedTracks.indexOf(currentFile);
-            
-            if (index > -1) {
-                likedTracks.splice(index, 1);
-            } else {
-                likedTracks.push(currentFile);
-            }
+            if (index > -1) likedTracks.splice(index, 1);
+            else likedTracks.push(currentFile);
             localStorage.setItem('alvibefm_likes', JSON.stringify(likedTracks));
             updateLikeButton();
         }
 
-        function updateMediaSession(trackTitle) {
-            if ('mediaSession' in navigator) {
-                navigator.mediaSession.metadata = new MediaMetadata({
-                    title: trackTitle,
-                    artist: 'MADE BY GINVALO',
-                    album: 'AL VIBE FM Stream',
-                    artwork: [
-                        { src: '1793047512009.jpg', sizes: '512x512', type: 'image/jpeg' }
-                    ]
+        // Pilnīga un pareiza STOP / PLAY loģika (novērš fonā skanēšanu)
+        function togglePlay() {
+            if (isPlaying) {
+                player.pause();
+                player.src = ""; // Pilnībā atvieno straumi, lai neveidojas gļuki
+                isPlaying = false;
+                playIcon.className = "fa-solid fa-play";
+                topLiveStatus.innerText = "● OFFLINE";
+                topLiveStatus.style.background = "#64748b";
+                trackName.innerText = "Stream Paused";
+            } else {
+                if (currentTrackIndex === -1) {
+                    currentTrackIndex = getRandomIndex(-1);
+                }
+                player.src = baseUrl + playlist[currentTrackIndex].file;
+                player.play().then(() => {
+                    isPlaying = true;
+                    playIcon.className = "fa-solid fa-stop";
+                    topLiveStatus.innerText = "● LIVE STREAM";
+                    topLiveStatus.style.background = "#ef4444";
+                    const currentTitle = playlist[currentTrackIndex].title;
+                    trackName.innerText = currentTitle;
+                    updateLikeButton();
+                    prepareNextTrack();
+                }).catch(e => {
+                    alert("Please click play again to start the stream.");
                 });
             }
         }
 
-        function loadRandomTrack() {
+        player.addEventListener('ended', () => {
             if (nextTrackIndex !== -1 && nextPlayer.src) {
                 currentTrackIndex = nextTrackIndex;
                 player.src = nextPlayer.src;
             } else {
-                currentTrackIndex = getRandomIndex(-1);
+                currentTrackIndex = getRandomIndex(currentTrackIndex);
                 player.src = baseUrl + playlist[currentTrackIndex].file;
             }
             const currentTitle = playlist[currentTrackIndex].title;
             trackName.innerText = currentTitle;
             updateLikeButton();
-            updateMediaSession(currentTitle);
+            player.play();
             prepareNextTrack();
-        }
-
-        function playNext() {
-            loadRandomTrack();
-            player.play().catch(e => console.log('Autoplay prevented until user interaction'));
-        }
-
-        player.addEventListener('ended', () => {
-            playNext();
         });
-
-        // Initial setup
-        loadRandomTrack();
     </script>
 </body>
 </html>
