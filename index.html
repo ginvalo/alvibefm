@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AL VIBE FM — 24/7 Web Radio</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .top-bar {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 0 10px;
+        }
+        .clock { font-size: 1.1rem; color: #00f2fe; font-weight: 600; font-family: monospace; }
+        .live-badge {
+            background: #ff4757;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
+        }
+        .radio-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .station-title { font-size: 2.2rem; letter-spacing: 2px; color: #ff007f; margin-bottom: 2px; }
+        .tagline { font-size: 0.85rem; color: #aaa; letter-spacing: 1px; margin-bottom: 25px; text-transform: uppercase; }
+        
+        .track-box {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 15px 20px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        .track-name { font-size: 1rem; color: #fff; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 80%; }
+        .heart-icon { font-size: 1.2rem; cursor: pointer; color: #fff; transition: 0.2s; }
+        .heart-icon:hover { color: #ff007f; transform: scale(1.1); }
+
+        .controls button {
+            background: linear-gradient(45deg, #ff007f, #7928ca);
+            border: none;
+            color: #fff;
+            width: 70px;
+            height: 70px;
+            font-size: 1.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(255, 0, 127, 0.4);
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .controls button:hover { transform: scale(1.05); }
+
+        .install-box {
+            background: rgba(0, 242, 254, 0.05);
+            border: 1px dashed rgba(0, 242, 254, 0.3);
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            color: #ccc;
+            text-align: left;
+        }
+        .install-box b { color: #00f2fe; }
+
+        .schedule-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 20px;
+            max-width: 450px;
+            width: 100%;
+        }
+        .schedule-title { font-size: 1.1rem; color: #fff; margin-bottom: 15px; text-align: left; font-weight: 600; }
+        .schedule-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            font-size: 0.85rem;
+            color: #bbb;
+        }
+        .schedule-item.active {
+            background: linear-gradient(135deg, rgba(255,0,127,0.2), rgba(121,40,202,0.2));
+            border: 1px solid rgba(255,0,127,0.4);
+            color: #fff;
+        }
+        .on-air-badge {
+            background: #ff4757;
+            color: white;
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <div id="clock" class="clock">00:00:00</div>
+        <div class="live-badge">● LIVE STREAM</div>
+    </div>
+
+    <div class="radio-card">
+        <h1 class="station-title">AL VIBE FM</h1>
+        <div class="tagline">YOUR RHYTHM. YOUR MUSIC.</div>
+        
+        <div class="track-box">
+            <div id="track-name" class="track-name">Spied PLAY, lai sāktu...</div>
+            <div class="heart-icon" onclick="toggleHeart()">❤️</div>
+        </div>
+
+        <div class="controls">
+            <button id="play-btn" onclick="togglePlay()">▶</button>
+        </div>
+
+        <div class="install-box">
+            📱 <b>Save Radio to Phone:</b><br>
+            Tap the three dots (⋮) in your browser menu and select "Add to Home Screen" to install as an app!
+        </div>
+    </div>
+
+    <div class="schedule-card">
+        <div class="schedule-title">📅 Today's Schedule</div>
+        <div id="sched-morning" class="schedule-item"><span>07:00 – 11:00 Morning Vibe</span><span>Music</span></div>
+        <div id="sched-daytime" class="schedule-item"><span>11:00 – 17:00 Daytime Electronics</span><span>Music</span></div>
+        <div id="sched-drive" class="schedule-item"><span>17:00 – 20:00 Vibe Drive</span><span>Music</span></div>
+        <div id="sched-night" class="schedule-item"><span>20:00 – 22:00 Vibe Night</span><span>Music</span></div>
+        <div id="sched-love" class="schedule-item"><span>22:00 – 23:00 Vibe Love</span><span>Music</span></div>
+        <div id="sched-club" class="schedule-item"><span>23:00 – 02:00 Vibe Club</span><span>Music</span></div>
+        <div id="sched-afterdark" class="schedule-item"><span>02:00 – 07:00 Vibe After Dark</span><span>Music</span></div>
+    </div>
+
+    <audio id="audio-player" crossorigin="anonymous"></audio>
+
+<script>
+setInterval(() => {
+    const now = new Date();
+    document.getElementById("clock").innerText = now.toTimeString().split(' ')[0];
+}, 1000);
+
+const baseUrl = "https://archive.org/download/al-vibe-fm/";
+
+// Reālie džingli no saraksta
+const topOfHourJingle = "1%20Al%20Vibe%20Fm.mp3";
+const regularJingles = [
+    "2%20Al%20Vibe%20Fm.mp3",
+    "3%20Al%20Vibe%20FM.mp3",
+    "4%20Al%20Vibe%20Fm.mp3",
+    "5%20Al%20Vibe%20Fm.mp3",
+    "6%20AL%20Vibe%20FM.mp3"
+];
+
+// Sakārtoti visi faili atbilstoši tavai precīzai bibliotēkai
+const playlists = {
+    morning: [
+        { title: "All Roads Lead to Disco", file: "1%20All%20Roads%20Lead%20to%20Disco%20-%20GINVALO.mp3" },
+        { title: "Every Day Like A Prize", file: "9%20Every%20Day%20Like%20A%20Prize.mp3" },
+        { title: "Good Life Instrumental", file: "11%20Good%20Life%20Instrumental.mp3" },
+        { title: "Good Life", file: "9%20Good%20Life%202026-06-10%2010_48%202026-06-10%2010_49.wav%20(Remastered).mp3" },
+        { title: "Chop Chop Lollipop", file: "6%20Chop%20Chop%20Lollipop%20-%20dizais201421502.mp3" },
+        { title: "Sunglasses & Sunlight", file: "45%20Sunglasses%20%26%20Sunlight.mp3" },
+        { title: "Sunrise In My Soul", file: "46%20Sunrise%20In%20My%20Soul.mp3" },
+        { title: "Weekendstate", file: "60%20Weekendstate.mp3" },
+        { title: "Ibiza Stole My Soul", file: "10%20Ibiza%20Stole%20My%20Soul.mp3" }
+    ],
+    daytime: [
+        { title: "Étoiles Dans Les Yeux", file: "63%20%C3%89toiles%20Dans%20Les%20Yeux.mp3" },
+        { title: "Hey Hey Hey", file: "13%20Hey%20Hey%20Hey.mp3" },
+        { title: "In That Summer", file: "16%20In%20That%20Summer.mp3" },
+        { title: "Party All Night", file: "31%20Party%20All%20Night.mp3" },
+        { title: "Stay The Same", file: "42%20Stay%20The%20Same%20-%20GINVALO.mp3" },
+        { title: "Summer Rings", file: "44%20Summer%20Rings.mp3" },
+        { title: "Under My Wings", file: "53%20Under%20My%20Wings.mp3" },
+        { title: "Under My Wings Instrumental", file: "15%20Under%20My%20Wings.Instrumental.mp3" },
+        { title: "We Do What We Want", file: "59%20We%20Do%20What%20We%20Want%20-%20GINVALO.mp3" },
+        { title: "You stole my hearth", file: "62%20You%20stole%20my%20hearth.mp3" },
+        { title: "Tropical House", file: "51%20Tropical%20House.mp3" },
+        { title: "No Brakes Instrumental", file: "8%20GINVALO%20-%20No%20Brakes.Instrumental.mp3" },
+        { title: "Lost In The Night", file: "11%20Lost%20In%20The%20Night.mp3" },
+        { title: "THEY", file: "48%20THEY%20-%20GINVALO.mp3" },
+        { title: "Beyonce The Fog Original Remix", file: "3%20Beyonce%20The%20Fog.Original%20Remix.mp3" }
+    ],
+    drive: [
+        { title: "No Brakes", file: "28%20No%20Brakes.mp3" },
+        { title: "Celebramos La Vida", file: "5%20Celebramos%20La%20Vida.mp3" },
+        { title: "Heartbeat Anthem", file: "12%20Heartbeat%20Anthem.mp3" },
+        { title: "NIGTLIFE", file: "23%20NIGTLIFE.mp3" },
+        { title: "To The Moon", file: "35%20Rise%20Unbound.mp3" },
+        { title: "Shine So Bright", file: "37%20Shine%20So%20Bright%20!.mp3" },
+        { title: "Infinitra", file: "17%20Infinitra.mp3" },
+        { title: "Sunglasses & Sunlight", file: "45%20Sunglasses%20%26%20Sunlight.mp3" }
+    ],
+    night: [
+        { title: "Zyrana", file: "16%20Zyrana%20(Remastered).mp3" },
+        { title: "Lost In The Night", file: "11%20Lost%20In%20The%20Night.mp3" },
+        { title: "Ibiza Stole My Soul", file: "10%20Ibiza%20Stole%20My%20Soul.mp3" },
+        { title: "Chop Chop Lollipop", file: "6%20Chop%20Chop%20Lollipop%20-%20dizais201421502.mp3" },
+        { title: "Mirror Games Instrumental", file: "21%20Mirror%20Games.Instrumental.mp3" },
+        { title: "Tropical House", file: "14%20Tropical%20House.mp3" },
+        { title: "Under My Wings", file: "53%20Under%20My%20Wings.mp3" },
+        { title: "I Fall In My Dreams", file: "14%20I%20Fall%20In%20My%20Dreams%20-%20dizais201421503.mp3" }
+    ],
+    love: [
+        { title: "I'll Make It Anyway", file: "15%20I%27ll%20make%20it%20anyway%20-%20GINVALO.mp3" },
+        { title: "No Call, No Goodbye", file: "29%20No%20Call%2CNo%20Goodbye.mp3" },
+        { title: "Shadows Without You", file: "36%20Shadows%20Without%20You.mp3" },
+        { title: "Somewhere In Silence", file: "38%20Somewhere%20in%20silence%20-%20GINVALO.mp3" },
+        { title: "Still I Stay", file: "43%20Still%20I%20Stay-Open%20-%20GINVALO.mp3" },
+        { title: "Midnight Lights", file: "12%20Midnight%20Lights.mp3" },
+        { title: "Ocean Of Dreams", file: "13%20Ocean%20Of%20Dreams.mp3" },
+        { title: "Stay The Same", file: "42%20Stay%20The%20Same%20-%20GINVALO.mp3" },
+        { title: "Don't Go", file: "7%20Don%27t%20go%202026-05-20%2005_35.wav%20(Remastered).mp3" }
+    ],
+    club: [
+        { title: "Lost In The Night", file: "11%20Lost%20In%20The%20Night.mp3" },
+        { title: "Zyrana", file: "16%20Zyrana%20(Remastered).mp3" },
+        { title: "UNKNOWN", file: "52%20UNKNOWN%20-%20GINVALO.mp3" },
+        { title: "THEY", file: "48%20THEY%20-%20GINVALO.mp3" },
+        { title: "Mirror Games", file: "22%20Mirror%20Games.mp3" },
+        { title: "NIGTLIFE", file: "23%20NIGTLIFE.mp3" },
+        { title: "No Brakes", file: "28%20No%20Brakes.mp3" },
+        { title: "Noctivibe", file: "30%20Noctivibe.mp3" },
+        { title: "Night Walk", file: "26%20Night%20Walk.mp3" },
+        { title: "Walk", file: "57%20Walk03_05.mp3".replace('03_05', '') }, // Labots uz Walk03.05 vai vienkārši Walk.mp3
+        { title: "Waves and Wonder", file: "58%20Waves%20and%20Wonder%20-%20GINVALO.mp3" },
+        { title: "Rise Unbound", file: "35%20Rise%20Unbound.mp3" },
+        { title: "Party All Night", file: "31%20Party%20All%20Night.mp3" },
+        { title: "Miami Beach Remix", file: "20%20Miami%20Beach%20Remix.mp3" },
+        { title: "Heartbeat Anthem", file: "12%20Heartbeat%20Anthem.mp3" },
+        { title: "Feel The Power Original Remix", file: "10%20Feel%20The%20Power%20Original%20Remix.mp3" },
+        { title: "Chop Chop Lollipop", file: "6%20Chop%20Chop%20Lollipop%20-%20dizais201421502.mp3" }
+    ],
+    afterDark: [
+        { title: "Beyonce The Fog Dream Trance Remix", file: "2%20Beyonce%20The%20Fog.%20Dream%20Trance%20Remix.mp3" },
+        { title: "Beyonce The Fog", file: "4%20Beyonce%20The%20Fog.mp3" },
+        { title: "Deluvision", file: "7%20Deluvision.mp3" },
+        { title: "MAGIC AMULET", file: "18%20MAGIC%20AMULET.mp3" },
+        { title: "Miami Beach Remix", file: "20%20Miami%20Beach%20Remix.mp3" },
+        { title: "Mirror Games Instrumental", file: "21%20Mirror%20Games.Instrumental.mp3" },
+        { title: "Mirror Games", file: "22%20Mirror%20Games.mp3" },
+        { title: "Night Dreams", file: "24%20Night%20Dreams.mp3" },
+        { title: "Night song", file: "27%20Night%20song.mp3" },
+        { title: "Night Walk", file: "26%20Night%20Walk.mp3" },
+        { title: "Phoryn Instrumental", file: "32%20Phoryn.Instrumental.mp3" },
+        { title: "Phoryn", file: "33%20Phoryn.mp3" },
+        { title: "Soul Tide Instrumental", file: "39%20Soul%20Tide%20Instrumental.mp3" },
+        { title: "Soul Tide", file: "40%20Soul%20Tide.mp3" },
+        { title: "Sprin", file: "41%20Sprin.mp3" },
+        { title: "Sunshine", file: "1%20All%20Roads%20Lead%20to%20Disco%20-%20GINVALO.mp3".replace('All%20Roads%20Lead%20to%20Disco%20-%20GINVALO', 'Sunshine') }, // Piemērots formatējumam
+        { title: "THEY", file: "48%20THEY%20-%20GINVALO.mp3" },
+        { title: "Tropical House", file: "51%20Tropical%20House.mp3" },
+        { title: "Unfelt Instrumental", file: "54%20Unfelt.%20Instrumental.mp3" },
+        { title: "Unfelt", file: "55%20Unfelt.mp3" },
+        { title: "UNKNOWN", file: "52%20UNKNOWN%20-%20GINVALO.mp3" },
+        { title: "Walk", file: "57%20Walk03_05.mp3" }
+    ]
+};
+
+const player = document.getElementById("audio-player");
+const playBtn = document.getElementById("play-btn");
+const trackName = document.getElementById("track-name");
+
+let songCounter = 0;
+let lastPlayedHour = -1;
+let isPlayingJingle = false;
+let currentTrackIndex = -1;
+
+function getCurrentSchedule() {
+    const hour = new Date().getHours();
+    if (hour >= 7 && hour < 11) return { id: "morning", name: "Morning Vibe", list: playlists.morning };
+    if (hour >= 11 && hour < 17) return { id: "daytime", name: "Daytime Electronics", list: playlists.daytime };
+    if (hour >= 17 && hour < 20) return { id: "drive", name: "Vibe Drive", list: playlists.drive };
+    if (hour >= 20 && hour < 22) return { id: "night", name: "Vibe Night", list: playlists.night };
+    if (hour >= 22 && hour < 23) return { id: "love", name: "Vibe Love", list: playlists.love };
+    if (hour >= 23 || hour < 2) return { id: "club", name: "Vibe Club", list: playlists.club };
+    return { id: "afterdark", name: "Vibe After Dark", list: playlists.afterDark };
+}
+
+function updateScheduleHighlight() {
+    const hour = new Date().getHours();
+    const items = ['morning', 'daytime', 'drive', 'night', 'love', 'club', 'afterdark'];
+    
+    items.forEach(id => {
+        const el = document.getElementById("sched-" + id);
+        if (el) {
+            el.classList.remove("active");
+            const badge = el.querySelector(".on-air-badge");
+            if (badge) badge.remove();
+        }
+    });
+
+    let activeId = "morning";
+    if (hour >= 7 && hour < 11) activeId = "morning";
+    else if (hour >= 11 && hour < 17) activeId = "daytime";
+    else if (hour >= 17 && hour < 20) activeId = "drive";
+    else if (hour >= 20 && hour < 22) activeId = "night";
+    else if (hour >= 22 && hour < 23) activeId = "love";
+    else if (hour >= 23 || hour < 2) activeId = "club";
+    else activeId = "afterdark";
+
+    const activeEl = document.getElementById("sched-" + activeId);
+    if (activeEl) {
+        activeEl.classList.add("active");
+        if (!activeEl.querySelector(".on-air-badge")) {
+            const badge = document.createElement("span");
+            badge.className = "on-air-badge";
+            badge.innerText = "ON AIR";
+            activeEl.appendChild(badge);
+        }
+    }
+}
+
+function getRandomIndex(max, exclude) {
+    if (max <= 1) return 0;
+    let index;
+    do {
+        index = Math.floor(Math.random() * max);
+    } while (index === exclude);
+    return index;
+}
+
+function playNextMedia() {
+    const currentHour = new Date().getHours();
+    const currentSchedule = getCurrentSchedule();
+
+    if (currentHour !== lastPlayedHour && !isPlayingJingle) {
+        lastPlayedHour = currentHour;
+        songCounter = 0;
+        player.src = baseUrl + topOfHourJingle;
+        isPlayingJingle = true;
+        trackName.innerText = "⚡ AL VIBE FM — Top of the Hour";
+        player.play().catch(e => console.log("Play error:", e));
+        return;
+    }
+
+    if (songCounter >= 4 && !isPlayingJingle) {
+        songCounter = 0;
+        const randomJingle = regularJingles[Math.floor(Math.random() * regularJingles.length)];
+        player.src = baseUrl + randomJingle;
+        isPlayingJingle = true;
+        trackName.innerText = "⚡ AL VIBE FM — Station ID";
+        player.play().catch(e => console.log("Play error:", e));
+        return;
+    }
+
+    isPlayingJingle = false;
+    songCounter++;
+    const activeList = currentSchedule.list;
+    currentTrackIndex = getRandomIndex(activeList.length, currentTrackIndex);
+    
+    player.src = baseUrl + activeList[currentTrackIndex].file;
+    trackName.innerText = activeList[currentTrackIndex].title;
+    player.play().catch(e => console.log("Play error:", e));
+}
+
+player.addEventListener("ended", playNextMedia);
+
+function togglePlay() {
+    if (player.paused) {
+        if (!player.src || player.src === window.location.href) {
+            playNextMedia();
+        } else {
+            player.play();
+        }
+        playBtn.innerText = "❚❚";
+    } else {
+        player.pause();
+        playBtn.innerText = "▶";
+    }
+}
+
+function toggleHeart() {
+    const heart = document.querySelector(".heart-icon");
+    heart.style.color = heart.style.color === "rgb(255, 0, 127)" ? "#fff" : "#ff007f";
+}
+
+updateScheduleHighlight();
+</script>
+</body>
+</html>
