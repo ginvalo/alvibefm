@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AL VIBE FM - Online Radio 24/7</title>
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --card: rgba(15, 23, 42, 0.75);
+    --card-border: rgba(255, 215, 0, 0.25);
+    --gold: #e8b923;
+    --gold-light: #f5d76e;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --navy: #1e3a8a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #020617;
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .phone {
+    width: 390px;
+    height: 844px;
+    background: linear-gradient(180deg, #0f172a 0%, #020617 100%);
+    border-radius: 48px;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.6), 0 0 0 12px #111, 0 0 0 14px #333;
+    overflow: hidden;
+    position: relative;
+    background-image: url('https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&q=80');
+    background-size: cover;
+    background-position: center bottom;
+  }
+
+  .phone::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(10,14,26,0.85) 0%, rgba(10,14,26,0.75) 40%, rgba(10,14,26,0.9) 100%);
+    pointer-events: none;
+  }
+
+  .status-bar {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 28px 8px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .header {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 4px 20px 12px;
+  }
+
+  .online-badge {
+    color: var(--gold);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  .logo {
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+
+  .logo .al { color: #1e40af; }
+  .logo .vibe { color: #1e40af; }
+  .logo .fm { color: var(--gold); }
+
+  .tagline {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #cbd5e1;
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+
+  .content {
+    position: relative;
+    z-index: 2;
+    padding: 0 16px 20px;
+    height: calc(100% - 140px);
+    overflow-y: auto;
+  }
+
+  .now-playing {
+    background: var(--card);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 14px;
+    display: flex;
+    gap: 14px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .album {
+    width: 110px;
+    height: 110px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #f97316, #7c3aed);
+    flex-shrink: 0;
+  }
+
+  .track-info h3 { font-size: 22px; margin-bottom: 2px; }
+  .track-info .artist { color: var(--muted); font-size: 15px; margin-bottom: 6px; }
+  .track-info .meta { font-size: 12px; color: var(--muted); letter-spacing: 0.5px; }
+  .fav { margin-top: 8px; font-size: 13px; color: var(--gold-light); cursor: pointer; }
+
+  .live-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--gold);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .live-dot { width: 8px; height: 8px; background: var(--gold); border-radius: 50%; }
+
+  .play-btn {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 3px solid var(--gold);
+    background: transparent;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .play-btn:hover { background: rgba(232,185,35,0.15); transform: scale(1.05); }
+
+  .play-btn svg { width: 28px; height: 28px; fill: var(--gold); margin-left: 3px; }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin: 18px 0 10px;
+    color: var(--gold-light);
+  }
+
+  .schedule-item, .top-item {
+    background: var(--card);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 10px 14px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+  }
+
+  .schedule-item .time { color: var(--muted); min-width: 90px; font-size: 13px; }
+  .schedule-item .name { font-weight: 600; }
+  .on-air {
+    background: var(--gold);
+    color: #111;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 12px;
+  }
+
+  .top-item { gap: 12px; }
+  .rank { font-weight: 700; color: var(--gold); min-width: 24px; }
+  .song { flex: 1; }
+  .song .title { font-weight: 600; }
+  .song .artist { font-size: 12px; color: var(--muted); }
+
+  .vote-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--gold);
+    background: transparent;
+    color: var(--gold);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+  }
+
+  .vote-btn.voted, .vote-btn:hover {
+    background: var(--gold);
+    color: #111;
+  }
+
+  .footer {
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+    padding: 16px 0 8px;
+    line-height: 1.4;
+  }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="status-bar">
+    <span>9:41</span>
+    <div>●●●● 📶 🔋</div>
+  </div>
+
+  <div class="header">
+    <div class="online-badge">Online Radio 24/7</div>
+    <div class="logo">
+      <span class="al">AL</span> <span class="vibe">VIBE</span> <span class="fm">FM</span>
+    </div>
+    <div class="tagline">Your Rhythm. Your Music.</div>
+  </div>
+
+  <div class="content">
+    <div class="now-playing">
+      <div class="live-badge"><span class="live-dot"></span> LIVE STREAM</div>
+      <div class="album"></div>
+      <div class="track-info">
+        <div style="font-size:11px; color:#94a3b8; margin-bottom:4px;">((•)) NOW PLAYING</div>
+        <h3 id="currentTrackTitle">Al Vibe Fm 1</h3>
+        <div class="artist" id="currentTrackArtist">AL VIBE Jingle</div>
+        <div class="meta" id="currentTrackMeta">JINGLE • ARCHIVE.ORG</div>
+        <div class="fav">☆ Add to Favorites</div>
+      </div>
+    </div>
+
+    <div class="play-btn" id="playBtn">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    </div>
+
+    <div class="section-title">📅 TODAY'S SCHEDULE</div>
+    <div class="schedule-item"><span class="time">07:00–11:00</span><span class="name">VIBE MORNING</span></div>
+    <div class="schedule-item"><span class="time">11:00–17:00</span><span class="name">VIBE DAYTIME</span><span class="on-air">ON AIR</span></div>
+    <div class="schedule-item"><span class="time">17:00–20:00</span><span class="name">VIBE DRIVE</span></div>
+    <div class="schedule-item"><span class="time">20:00–22:00</span><span class="name">VIBE EVENING</span></div>
+    <div class="schedule-item"><span class="time">22:00–23:00</span><span class="name">VIBE LOVE/LOUNGE</span></div>
+    <div class="schedule-item"><span class="time">23:00–02:00</span><span class="name">VIBE CLUB</span></div>
+    <div class="schedule-item"><span class="time">02:00–07:00</span><span class="name">VIBE AFTER DARK</span></div>
+
+    <div class="section-title">≡ TOP 20</div>
+    <div class="top-item">
+      <span class="rank">1.</span>
+      <div class="song"><div class="title">Midnight City</div><div class="artist">M83</div></div>
+      <button class="vote-btn" onclick="vote(this)">♥</button>
+    </div>
+    <div class="top-item">
+      <span class="rank">2.</span>
+      <div class="song"><div class="title">Titanium</div><div class="artist">David Guetta</div></div>
+      <button class="vote-btn" onclick="vote(this)">♥</button>
+    </div>
+    <div class="top-item">
+      <span class="rank">3.</span>
+      <div class="song"><div class="title">Levels</div><div class="artist">Avicii</div></div>
+      <button class="vote-btn" onclick="vote(this)">♥</button>
+    </div>
+
+    <div class="footer">
+      All rights reserved by AL VIBE FM<br>
+      Made by GINVALO
+    </div>
+  </div>
+</div>
+
+<script>
+// Džinglu saraksts ar tiešajām saitēm
+const jingles = [
+  { title: "Al Vibe Fm 1", src: "https://archive.org/download/al-vibe-fm_20261029_1311/Al%20Vibe%20Fm%201.mp3" },
+  { title: "Al Vibe Fm 2", src: "https://archive.org/download/al-vibe-fm_20261029_1311/Al%20Vibe%20Fm%202.mp3" },
+  { title: "Al Vibe Fm 3", src: "https://archive.org/download/al-vibe-fm_20261029_1311/Al%20Vibe%20Fm%203.mp3" },
+  { title: "Al Vibe Fm 4", src: "https://archive.org/download/al-vibe-fm_20261029_1311/Al%20Vibe%20Fm%204.mp3" }
+];
+
+let currentIndex = 0;
+const audio = new Audio();
+const playBtn = document.getElementById('playBtn');
+const path = playBtn.querySelector('path');
+const trackTitle = document.getElementById('currentTrackTitle');
+
+function loadTrack(index) {
+  audio.src = jingles[index].src;
+  trackTitle.textContent = jingles[index].title;
+}
+
+// Ielādējam pirmo džinglu
+loadTrack(currentIndex);
+
+playBtn.addEventListener('click', function() {
+  if (audio.paused) {
+    audio.play();
+    path.setAttribute('d', 'M6 4h4v16H6zm8 0h4v16h-4z'); // Pause ikona
+  } else {
+    audio.pause();
+    path.setAttribute('d', 'M8 5v14l11-7z'); // Play ikona
+  }
+});
+
+// Kad džingls beidzas, automātiski atskaņo nākamo
+audio.addEventListener('ended', function() {
+  currentIndex = (currentIndex + 1) % jingles.length;
+  loadTrack(currentIndex);
+  audio.play();
+});
+
+function vote(btn) {
+  btn.classList.toggle('voted');
+  btn.textContent = btn.classList.contains('voted') ? '♥' : '♡';
+}
+</script>
+
+</body>
+</html>
