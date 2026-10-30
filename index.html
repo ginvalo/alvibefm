@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>AL VIBE FM - Online Radio 24/7</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#e8b923">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AL VIBE FM">
+<link rel="apple-touch-icon" href="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=180&h=180&fit=crop&q=80">
+<style>
+  :root {
+    --bg: #030712;
+    --card: rgba(15, 23, 42, 0.85);
+    --card-border: rgba(232, 185, 35, 0.35);
+    --gold: #e8b923;
+    --gold-light: #f5d76e;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #030712;
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    background-image: url('https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=1600&q=85');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(3, 7, 18, 0.82), rgba(3, 7, 18, 0.96));
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 440px;
+    min-height: 100vh;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 18px 36px;
+  }
+
+  .top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0 12px;
+  }
+
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .clock-wrapper {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(232, 185, 35, 0.2);
+    padding: 6px 14px;
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    box-shadow: inset 0 0 10px rgba(232, 185, 35, 0.05);
+  }
+
+  .digital-clock {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--gold-light);
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(232, 185, 35, 0.6);
+  }
+
+  .icon-btn {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(232, 185, 35, 0.2);
+    color: var(--text);
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .icon-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  .header {
+    text-align: center;
+    padding: 4px 0 16px;
+  }
+
+  .online-radio-tag {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    text-shadow: 0 0 8px rgba(232, 185, 35, 0.4);
+  }
+
+  .logo {
+    font-size: 44px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  .logo .al { color: #ffffff; text-shadow: 0 0 12px rgba(255,255,255,0.3); }
+  .logo .vibe { color: #ffffff; }
+  .logo .fm { color: var(--gold); }
+
+  .tagline {
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    color: #94a3b8;
+    text-transform: uppercase;
+  }
+
+  .player-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 18px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+    backdrop-filter: blur(16px);
+  }
+
+  .player-hero {
+    height: 130px;
+    background-image: linear-gradient(to bottom, rgba(3, 7, 18, 0.2), rgba(15, 23, 42, 0.95)), url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=600&q=80');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .live-pill {
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gold);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .live-pill .live-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ef4444;
+    box-shadow: 0 0 8px #ef4444;
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(0.9); opacity: 0.8; }
+    50% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(0.9); opacity: 0.8; }
+  }
+
+  .back-to-live-btn {
+    background: rgba(232, 185, 35, 0.9);
+    color: #030712;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    display: none;
+    box-shadow: 0 0 10px rgba(232, 185, 35, 0.5);
+  }
+
+  .player-controls-row {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .track-meta {
+    flex: 1;
+    min-width: 0;
+    padding-right: 12px;
+  }
+
+  .track-meta .label {
+    font-size: 10px;
+    color: var(--gold);
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .track-meta h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 4px;
+  }
+
+  .track-meta .sub {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
+  .fav-btn {
+    font-size: 12px;
+    color: var(--gold-light);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    user-select: none;
+  }
+
+  .fav-btn.is-fav { color: #ef4444; }
+
+  .main-play-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f5d76e, #e8b923);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 0 16px rgba(232, 185, 35, 0.4);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+
+  .main-play-btn:active { transform: scale(0.95); }
+  .main-play-btn svg { width: 22px; height: 22px; fill: #030712; }
+
+  .volume-row {
+    padding: 0 16px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .volume-icon { font-size: 14px; color: var(--gold); }
+
+  .volume-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+  }
+
+  .volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--gold);
+    cursor: pointer;
+    box-shadow: 0 0 6px rgba(232, 185, 35, 0.8);
+  }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin: 14px 0 8px;
+    text-transform: uppercase;
+  }
+
+  .recent-list { display: flex; flex-direction: column; gap: 6px; }
+  .recent-card {
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 10px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .recent-title { color: #fff; font-weight: 600; flex: 1; margin-left: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .schedule-list { display: flex; flex-direction: column; gap: 6px; }
+  .schedule-card {
+    background: var(--card);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+  .schedule-card.active {
+    border-color: var(--gold);
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95));
+    box-shadow: 0 0 15px rgba(232, 185, 35, 0.15);
+  }
+  .schedule-time { color: var(--gold); font-weight: 700; width: 85px; font-size: 11px; letter-spacing: 0.5px; }
+  .schedule-name { font-weight: 700; flex: 1; color: #fff; font-size: 12px; letter-spacing: 0.5px; }
+  .badge-onair { 
+    background: rgba(232, 185, 35, 0.15);
+    border: 1px solid var(--gold); 
+    color: var(--gold); 
+    border-radius: 20px; 
+    padding: 3px 10px; 
+    font-size: 9px; 
+    font-weight: 800;
+    letter-spacing: 1px;
+  }
+  .badge-upcoming { color: var(--muted); font-size: 10px; font-weight: 500; }
+
+  .top20-widget-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 16px 20px;
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+    backdrop-filter: blur(16px);
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .top20-widget-card:hover { transform: scale(1.02); border-color: var(--gold); }
+  
+  .top20-widget-left { display: flex; align-items: center; gap: 14px; }
+  .top20-widget-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f5d76e, #e8b923);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    color: #030712;
+    font-size: 14px;
+    box-shadow: 0 0 12px rgba(232, 185, 35, 0.4);
+  }
+  .top20-widget-title { font-size: 16px; font-weight: 900; color: #fff; letter-spacing: 1px; }
+  .top20-widget-sub { font-size: 11px; color: var(--gold-light); margin-top: 2px; font-weight: 600; }
+  .top20-arrow { color: var(--gold); font-size: 20px; font-weight: 800; }
+
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 200;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  .modal-content {
+    background: #0f172a;
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 400px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+  }
+  .modal-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--card-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(3, 7, 18, 0.5);
+  }
+  .modal-header h3 { color: var(--gold); font-size: 16px; font-weight: 800; letter-spacing: 1px; }
+  .modal-close { background: none; border: none; color: var(--muted); font-size: 20px; cursor: pointer; }
+  .modal-close:hover { color: #fff; }
+  .modal-body { padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+
+  .top-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    gap: 10px;
+  }
+  .top-card:hover { border-color: var(--gold); }
+  .top-rank { font-weight: 800; color: var(--gold); width: 22px; text-align: center; font-size: 13px; }
+  .top-title { flex: 1; font-weight: 600; font-size: 13px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .heart-btn {
+    background: none;
+    border: none;
+    color: var(--gold);
+    cursor: pointer;
+    font-size: 18px;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+  }
+  .heart-btn:hover { transform: scale(1.15); }
+  .heart-btn.voted { color: #ef4444; }
+
+  .footer {
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+    padding: 24px 0 10px;
+    line-height: 1.6;
+  }
+
+  .menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 100;
+    display: none;
+    justify-content: flex-end;
+  }
+
+  .menu-panel {
+    background: #0f172a;
+    width: 320px;
+    height: 100%;
+    padding: 20px;
+    border-left: 1px solid var(--card-border);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .menu-panel h4 { color: var(--gold); margin-bottom: 16px; font-size: 16px; border-bottom: 1px solid var(--card-border); padding-bottom: 8px; }
+  
+  .menu-section { margin-top: 18px; }
+  .menu-section-title { font-size: 12px; color: var(--gold); font-weight: 800; letter-spacing: 1px; margin-bottom: 8px; }
+  
+  .menu-link-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(232, 185, 35, 0.2);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s;
+  }
+  .menu-link-btn:hover { background: rgba(232, 185, 35, 0.1); }
+
+  .terms-dropdown, .install-guide-dropdown {
+    display: none;
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.6;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .terms-dropdown.open, .install-guide-dropdown.open { display: block; }
+  .install-guide-dropdown ol { padding-left: 16px; margin-top: 6px; }
+  .install-guide-dropdown li { margin-bottom: 4px; }
+
+  .monthly-top-dropdown {
+    display: none;
+    margin-top: 8px;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .monthly-top-dropdown.open { display: flex; }
+
+  .monthly-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+  .monthly-item:hover { border-color: var(--gold); }
+  .monthly-rank { color: var(--gold); font-weight: 700; width: 20px; }
+  .monthly-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .fav-list { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+  .fav-item {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(232, 185, 35, 0.15);
+    border-radius: 8px;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+  }
+  .fav-item-title { flex: 1; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
+  .fav-item-remove { color: var(--muted); background: none; border: none; font-size: 14px; cursor: pointer; padding-left: 6px; }
+  .fav-item-remove:hover { color: #ef4444; }
+
+  .social-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+  .social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--card-border);
+    text-decoration: none;
+    transition: transform 0.2s, background 0.2s;
+  }
+  .social-btn:hover { transform: scale(1.1); }
+  .social-btn svg { width: 22px; height: 22px; }
+
+  .social-btn.spotify { color: #1DB954; }
+  .social-btn.instagram { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #df5950 45%, #d6249f 60%, #285AEB 90%); color: #fff; border: none; }
+  .social-btn.facebook { color: #1877F2; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="top-nav">
+    <div class="nav-left">
+      <div class="clock-wrapper">
+        <div class="digital-clock" id="clock">--:--</div>
+      </div>
+      <button class="icon-btn" onclick="shareRadio()" title="Share Radio">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+      </button>
+    </div>
+    <button class="icon-btn" onclick="toggleMenu()">☰</button>
+  </div>
+
+  <div class="header">
+    <div class="online-radio-tag">ONLINE RADIO</div>
+    <div class="logo">
+      <span class="al">AL</span> <span class="vibe">VIBE</span> <span class="fm">FM</span>
+    </div>
+    <div class="tagline">YOUR RHYTHM. YOUR MUSIC.</div>
+  </div>
+
+  <div class="player-card">
+    <div class="player-hero">
+      <div class="live-pill" id="livePill">
+        <span class="live-dot"></span> LIVE STREAM
+      </div>
+      <button class="back-to-live-btn" id="backToLiveBtn" onclick="switchToLiveStream()">↺ Return to Live</button>
+    </div>
+    <div class="player-controls-row">
+      <div class="track-meta">
+        <div class="label" id="playerLabel">NOW PLAYING</div>
+        <h3 id="trackTitle">Press Play to Start</h3>
+        <div class="sub" id="trackSub">AL VIBE FM • 24/7 STREAM</div>
+        <div class="fav-btn" id="favMainBtn" onclick="toggleCurrentFavorite()">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          <span id="favBtnText">Add to Favorites</span>
+        </div>
+      </div>
+      <button class="main-play-btn" id="playBtn">
+        <svg viewBox="0 0 24 24" id="playIcon"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+    </div>
+    <div class="volume-row">
+      <span class="volume-icon">🔈</span>
+      <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="1">
+      <span class="volume-icon">🔊</span>
+    </div>
+  </div>
+
+  <div class="section-title">Recently Played</div>
+  <div class="recent-list" id="recentList">
+    <div style="font-size: 11px; color: var(--muted);">History will appear here...</div>
+  </div>
+
+  <div class="section-title">Schedule</div>
+  <div class="schedule-list" id="scheduleList"></div>
+
+  <div class="top20-widget-card" onclick="openTop20Modal()">
+    <div class="top20-widget-left">
+      <div class="top20-widget-logo">TOP</div>
+      <div>
+        <div class="top20-widget-title">TOP 20</div>
+        <div class="top20-widget-sub">Explore tracks & vote daily ✨</div>
+      </div>
+    </div>
+    <div class="top20-arrow">›</div>
+  </div>
+
+  <div class="footer">
+    AL VIBE FM • 24/7 Online Radio<br>
+    All rights reserved by GINVALO
+  </div>
+</div>
+
+<div class="modal-overlay" id="top20Modal" onclick="closeTop20Modal()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3>TOP 20 CHART & VOTING</h3>
+      <button class="modal-close" onclick="closeTop20Modal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalTopList"></div>
+  </div>
+</div>
+
+<div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()">
+  <div class="menu-panel" onclick="event.stopPropagation()">
+    <h4>AL VIBE FM</h4>
+    
+    <div class="menu-section">
+      <button class="menu-link-btn" onclick="toggleMonthlyTop()">
+        <span>⭐ Monthly Top 10</span>
+        <span>▾</span>
+      </button>
+      <div class="monthly-top-dropdown" id="monthlyTopDropdown"></div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-section-title">♥ MY FAVORITES</div>
+      <div class="fav-list" id="favMenuList">
+        <div style="font-size: 11px; color: var(--muted);">No favorites added yet.</div>
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <button class="menu-link-btn" onclick="toggleInstallGuide()">
+        <span>📱 How to Install App</span>
+        <span>▾</span>
+      </button>
+      <div class="install-guide-dropdown" id="installGuideDropdown">
+        <p><strong>To add AL VIBE FM to your phone screen:</strong></p>
+        <br>
+        <p><strong>iPhone / Safari:</strong></p>
+        <ol>
+          <li>Tap the <strong>Share</strong> button at the bottom of Safari.</li>
+          <li>Scroll down and tap <strong>"Add to Home Screen"</strong>.</li>
+          <li>Tap <strong>Add</strong> in the top right corner.</li>
+        </ol>
+        <br>
+        <p><strong>Android / Chrome:</strong></p>
+        <ol>
+          <li>Tap the <strong>three dots (menu)</strong> in the top right of Chrome.</li>
+          <li>Tap <strong>"Add to Home screen"</strong> or <strong>"Install app"</strong>.</li>
+          <li>Confirm by tapping <strong>Install</strong>.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <button class="menu-link-btn" onclick="toggleTerms()">
+        <span>📄 Privacy & Terms</span>
+        <span>▾</span>
+      </button>
+      <div class="terms-dropdown" id="termsDropdown">
+        <p><strong>AL VIBE FM</strong> operates as an automated 24/7 AI-powered music web radio station. All broadcasted audio tracks, compositions, jingles, visual graphics, and intellectual property featured on this platform are exclusively created, produced, and owned by <strong>GINVALO</strong>.</p>
+        <br>
+        <p><strong>Copyright & Intellectual Property:</strong> All rights reserved. Unauthorized commercial redistribution, re-broadcasting, commercial exploitation, or extraction of the audio streams without prior written authorization from GINVALO is strictly prohibited.</p>
+        <br>
+        <p><strong>Privacy Policy:</strong> We respect your privacy. This platform utilizes local browser storage exclusively to preserve your favorite tracks, voting history, and user preferences. We do not collect, track, or share any personal user information or telemetry data.</p>
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-section-title">FOLLOW US</div>
+      <div class="social-links">
+        <a href="https://open.spotify.com/artist/7IfZWsmjEBqREWnUUygY15?si=EvoOqUzAQ12OXAmC5wGrVQ&utm_source=copy-link" target="_blank" class="social-btn spotify" title="Spotify">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.6 0 12 0zm5.521 17.34c-.24.359-.72.48-1.08.24-2.999-1.835-6.779-2.25-11.22-1.23-.42.12-.84-.18-.96-.6-.12-.42.18-.84.6-.96 4.86-1.14 9.06-.66 12.54 1.56.36.24.48.72.24 1.08zm1.44-3.84c-.3.48-.9.66-1.38.36-3.48-2.1-8.76-2.74-12.84-1.5-.54.18-1.14-.12-1.32-.66-.18-.54.12-1.14.66-1.32 4.62-1.38 10.44-.66 14.46 1.86.48.3.66.9.36 1.38zm.12-4.08C14.7 7.14 8.52 6.9 4.98 7.98c-.66.18-1.38-.18-1.56-.84-.18-.66.18-1.38.84-1.56 4.14-1.26 11.04-1.02 15.36 1.56.6.36.78 1.14.42 1.74-.36.6-1.14.78-1.74.42z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/ginvaloofficial?rpxt=MTE1dDVqaDQweTZ4MQ==" target="_blank" class="social-btn instagram" title="Instagram">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a href="https://www.facebook.com/share/19hfF7KqZm/" target="_blank" class="social-btn facebook" title="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function shareRadio() {
+  if (navigator.share) {
+    navigator.share({
+      title: 'AL VIBE FM',
+      text: 'Listen to AL VIBE FM - 24/7 Online Radio by GINVALO!',
+      url: window.location.href
+    }).catch(err => console.log('Share canceled', err));
+  } else {
+    navigator.clipboard.writeText(window.location.href);
+    alert('Radio link copied to clipboard!');
+  }
+}
+
+const monthlyTop10 = [
+  { id: "m1", title: "Chop Chop Lollipop", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Chop%20Chop%20Lollipop.mp3" },
+  { id: "m2", title: "I Fall In My Dreams", src: "https://archive.org/download/al-vibe-fm_20261029_1428/I%20Fall%20In%20My%20Dreams.mp3" },
+  { id: "m3", title: "I WANNA FEEL", src: "https://archive.org/download/al-vibe-fm_20261029_1428/I%20WANNA%20FEEL.mp3" },
+  { id: "m4", title: "Somewhere in Silence", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Somewhere%20in%20silence.mp3" },
+  { id: "m5", title: "No Brakes", src: "https://archive.org/download/al-vibe-fm_20261029_1428/No%20Brakes.mp3" },
+  { id: "m6", title: "THEY", src: "https://archive.org/download/al-vibe-fm_20261029_1428/THEY.mp3" },
+  { id: "m7", title: "To The Moon", src: "https://archive.org/download/al-vibe-fm_20261029_1428/To%20The%20Moon.mp3" },
+  { id: "m8", title: "Lost In The Night", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Lost%20In%20The%20Night.mp3" },
+  { id: "m9", title: "Feel The Power", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Feel%20The%20Power.mp3" },
+  { id: "m10", title: "Heartbeat Anthem", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Heartbeat%20Anthem.mp3" }
+];
+
+const top20Chart = [
+  { id: "t1", title: "Chop Chop Lollipop", votes: 200, src: "https://archive.org/download/al-vibe-fm_20261029_1428/Chop%20Chop%20Lollipop.mp3" },
+  { id: "t2", title: "Love Stop", votes: 190, src: "https://archive.org/download/al-vibe-fm_20261029_1428/Love%20Stop.mp3" },
+  { id: "t3", title: "NIGHTLIFE", votes: 180, src: "https://archive.org/download/al-vibe-fm_20261029_1428/NIGTLIFE.mp3" },
+  { id: "t4", title: "I WANNA FEEL", votes: 170, src: "https://archive.org/download/al-vibe-fm_20261029_1428/I%20WANNA%20FEEL.mp3" },
+  { id: "t5", title: "Lost In The Night", votes: 160, src: "https://archive.org/download/al-vibe-fm_20261029_1428/Lost%20In%20The%20Night.mp3" },
+  { id: "t6", title: "Feel The Power", votes: 150, src: "https://archive.org/download/al-vibe-fm_20261029_1428/Feel%20The%20Power.mp3" },
+  { id: "t7", title: "I Fall In My Dreams", votes: 140, src: "https://archive.org/download/al-vibe-fm_20261029_1428/I%20Fall%20In%20My%20Dreams.mp3" },
+  { id: "t8", title: "Mars", votes: 130, src: "https://archive.org/download/al-vibe-fm_20261029_1428/Mars.mp3" },
+  { id: "t9", title: "UNKNOWN", votes: 120, src: "https://archive.org/download/al-vibe-fm_20261029_1428/UNKNOWN.mp3" },
+  { id: "t10", title: "You Stole My Heart", votes: 110, src: "https://archive.org/download/al-vibe-fm_20261029_1428/You%20stole%20my%20hearth.mp3" },
+  { id: "t11", title: "No Brakes", votes: 100, src: "https://archive.org/download/al-vibe-fm_20261029_1428/No%20Brakes.mp3" },
+  { id: "t12", title: "Heartbeat Anthem", votes: 90, src: "https://archive.org/download/al-vibe-fm_20261029_1428/Heartbeat%20Anthem.mp3" },
+  { id: "t13", title: "I'll Make It Anyway", votes: 80, src: "https://archive.org/download/al-vibe-fm_20261029_1428/I%27ll%20Make%20It%20Anyway.mp3" },
+  { id: "t14", title: "We Do What We Want", votes: 70, src: "https://archive.org/download/al-vibe-fm_20261029_1428/We%20Do%20What%20We%20Want.mp3" },
+  { id: "t15", title: "Somewhere in Silence", votes: 60, src: "https://archive.org/download/al-vibe-fm_20261029_1428/Somewhere%20in%20silence.mp3" },
+  { id: "t16", title: "To The Moon", votes: 50, src: "https://archive.org/download/al-vibe-fm_20261029_1428/To%20The%20Moon.mp3" },
+  { id: "t17", title: "Zyrana", votes: 40, src: "https://archive.org/download/al-vibe-fm_20261029_1428/Zyrana.mp3" },
+  { id: "t18", title: "Still I Stay", votes: 30, src: "https://archive.org/download/al-vibe-fm_20261029_1428/Still%20I%20Stay.mp3" },
+  { id: "t19", title: "THEY", votes: 20, src: "https://archive.org/download/al-vibe-fm_20261029_1428/THEY.mp3" },
+  { id: "t20", title: "Luma-Zyra", votes: 10, src: "https://archive.org/download/al-vibe-fm_20261030/Luma-Zyra.mp3" }
+];
+
+const schedulePlaylists = {
+  morning: [
+    { title: "Chop Chop Lollipop", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Chop%20Chop%20Lollipop.mp3" },
+    { title: "All Roads Lead To Disco", src: "https://archive.org/download/al-vibe-fm_20261029_1428/All%20Roads%20Lead%20To%20Disco.mp3" },
+    { title: "Feel The Power Original Remix", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Feel%20The%20Power%20Original%20Remix.mp3" },
+    { title: "Good Life", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Good%20Life.mp3" },
+    { title: "Heartbeat Anthem", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Heartbeat%20Anthem.mp3" },
+    { title: "I Fall In My Dreams", src: "https://archive.org/download/al-vibe-fm_20261029_1428/I%20Fall%20In%20My%20Dreams.mp3" },
+    { title: "I WANNA FEEL", src: "https://archive.org/download/al-vibe-fm_20261029_1428/I%20WANNA%20FEEL.mp3" },
+    { title: "Ibiza Stole My Soul", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Ibiza%20Stole%20My%20Soul.mp3" },
+    { title: "Love Stop", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Love%20Stop.mp3" },
+    { title: "Miami Beach Radio Version", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Miami%20Beach%20Radio%20Version.mp3" },
+    { title: "No Brakes", src: "https://archive.org/download/al-vibe-fm_20261029_1428/No%20Brakes.mp3" },
+    { title: "Sunglasses & Sunlight", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Sunglasses%20%26%20Sunlight.mp3" },
+    { title: "To The Moon", src: "https://archive.org/download/al-vibe-fm_20261029_1428/To%20The%20Moon.mp3" },
+    { title: "Weekendstate", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Weekendstate.mp3" },
+    { title: "You Stole My Heart", src: "https://archive.org/download/al-vibe-fm_20261029_1428/You%20stole%20my%20hearth.mp3" },
+    { title: "We Do What We Want", src: "https://archive.org/download/al-vibe-fm_20261029_1428/We%20Do%20What%20We%20Want.mp3" },
+    { title: "Tropical Walk", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Tropical%20Walk.mp3" },
+    { title: "Waves and Wonder", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Waves%20and%20Wonder.mp3" },
+    { title: "Wind In You", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Wind%20InYou.mp3" },
+    { title: "Batumi Nights", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Batumi%20Nights.mp3" },
+    { title: "Walk", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Walk.mp3" }
+  ],
+  daytime: [
+    { title: "You Stole My Heart", src: "https://archive.org/download/al-vibe-fm_20261029_1428/You%20stole%20my%20hearth.mp3" },
+    { title: "Wind In You", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Wind%20InYou.mp3" },
+    { title: "Weekendstate", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Weekendstate.mp3" },
+    { title: "We Do What We Want", src: "https://archive.org/download/al-vibe-fm_20261029_1428/We%20Do%20What%20We%20Want.mp3" },
+    { title: "Waves and Wonder", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Waves%20and%20Wonder.mp3" },
+    { title: "Under My Wings", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Under%20My%20Wings.mp3" },
+    { title: "Under My Wings (Instrumental)", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Under%20My%20Wings.Instrumental.mp3" },
+    { title: "Sunshine", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Sunshine.mp3" },
+    { title: "Sunrise In My Soul", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Sunrise%20In%20My%20Soul.mp3" },
+    { title: "Sunglasses & Sunlight", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Sunglasses%20%26%20Sunlight.mp3" },
+    { title: "Summer Rings", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Summer%20Rings.mp3" },
+    { title: "Stay The Same", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Stay%20The%20Same.mp3" },
+    { title: "Soul Tide", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Soul%20Tide.mp3" },
+    { title: "Shine So Bright !", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Shine%20So%20Bright%20%21.mp3" },
+    { title: "Party All Night", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Party%20All%20Night.mp3" },
+    { title: "Lost In The Night", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Lost%20In%20The%20Night.mp3" },
+    { title: "Love Stop", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Love%20Stop.mp3" },
+    { title: "Miami Beach Remix", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Miami%20Beach%20Remix.mp3" },
+    { title: "Kanatlarımızın Altında", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Kanatlar%C4%B1m%C4%B1n%20Alt%C4%B1nda.mp3" },
+    { title: "In That Summer", src: "https://archive.org/download/al-vibe-fm_20261029_1428/In%20That%20Summer.mp3" },
+    { title: "Ibiza Stole My Soul", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Ibiza%20Stole%20My%20Soul.mp3" },
+    { title: "I WANNA FEEL", src: "https://archive.org/download/al-vibe-fm_20261029_1428/I%20WANNA%20FEEL.mp3" },
+    { title: "I Fall In My Dreams", src: "https://archive.org/download/al-vibe-fm_20261029_1428/I%20Fall%20In%20My%20Dreams.mp3" },
+    { title: "Hey Hey Hey", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Hey%20Hey%20Hey.mp3" },
+    { title: "Heartbeat Anthem", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Heartbeat%20Anthem.mp3" },
+    { title: "Brilla", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Brilla.mp3" },
+    { title: "Good Life", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Good%20Life.mp3" },
+    { title: "Every Day Like A Prize", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Every%20Day%20Like%20A%20Prize.mp3" },
+    { title: "Étoiles Dans Les Yeux", src: "https://archive.org/download/al-vibe-fm_20261029_1428/%C3%89toiles%20Dans%20Les%20Yeux.mp3" },
+    { title: "Chop Chop Lollipop", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Chop%20Chop%20Lollipop.mp3" },
+    { title: "Celebramos La Vida", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Celebramos%20La%20Vida.mp3" },
+    { title: "All Roads Lead To Disco", src: "https://archive.org/download/al-vibe-fm_20261029_1428/All%20Roads%20Lead%20To%20Disco.mp3" },
+    { title: "Still I Stay", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Still%20I%20Stay.mp3" },
+    { title: "Somewhere in Silence", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Somewhere%20in%20silence.mp3" }
+  ],
+  drive: [
+    { title: "Chop Chop Lollipop", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Chop%20Chop%20Lollipop.mp3" },
+    { title: "Love Stop", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Love%20Stop.mp3" },
+    { title: "Feel The Power", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Feel%20The%20Power.mp3" },
+    { title: "THEY", src: "https://archive.org/download/al-vibe-fm_20261029_1428/THEY.mp3" },
+    { title: "No Brakes", src: "https://archive.org/download/al-vibe-fm_20261029_1428/No%20Brakes.mp3" },
+    { title: "Ibiza Stole My Soul", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Ibiza%20Stole%20My%20Soul.mp3" },
+    { title: "Lost In The Night", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Lost%20In%20The%20Night.mp3" },
+    { title: "Miami Beach Radio Version", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Miami%20Beach%20Radio%20Version.mp3" },
+    { title: "Zyrana", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Zyrana.mp3" },
+    { title: "You Stole My Heart", src: "https://archive.org/download/al-vibe-fm_20261029_1428/You%20stole%20my%20hearth.mp3" },
+    { title: "Weekendstate", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Weekendstate.mp3" },
+    { title: "Walk", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Walk.mp3" },
+    { title: "Walk In The Dark", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Walk%20In%20The%20Dark.mp3" },
+    { title: "Tropical House", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Tropical%20House.mp3" },
+    { title: "To The Moon", src: "https://archive.org/download/al-vibe-fm_20261029_1428/To%20The%20Moon.mp3" },
+    { title: "Test", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Test.mp3" },
+    { title: "Sunshine", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Sunshine.mp3" },
+    { title: "Party All Night", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Party%20All%20Night.mp3" },
+    { title: "Mirror Games", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Mirror%20Games.mp3" },
+    { title: "Mars", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Mars.mp3" },
+    { title: "Last Night", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Last%20Night.mp3" },
+    { title: "I WANNA FEEL", src: "https://archive.org/download/al-vibe-fm_20261029_1428/I%20WANNA%20FEEL.mp3" },
+    { title: "I Fall In My Dreams", src: "https://archive.org/download/al-vibe-fm_20261029_1428/I%20Fall%20In%20My%20Dreams.mp3" }
+  ],
+  evening: [
+    { title: "Beyonce The Fog", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Beyonce%20The%20Fog.mp3" },
+    { title: "Carousel Of Power", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Carousel%20Of%20Power.mp3" },
+    { title: "Deluvision", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Deluvision.mp3" },
+    { title: "Feel The Power Original Remix", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Feel%20The%20Power%20Original%20Remix.mp3" },
+    { title: "GINVALO - No Brakes (Instrumental)", src: "https://archive.org/download/al-vibe-fm_20261029_1428/GINVALO%20-%20No%20Brakes.Instrumental.mp3" },
+    { title: "Gravity", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Gravity.mp3" },
+    { title: "Infinitra", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Infinitra.mp3" },
+    { title: "Mirror Games (Instrumental)", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Mirror%20Games.Instrumental.mp3" },
+    { title: "Noctivibe", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Noctivibe.mp3" },
+    { title: "Phoryn", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Phoryn.mp3" },
+    { title: "Rise Unbound", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Rise%20Unbound.mp3" },
+    { title: "Rising Tension", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Rising%20Tension.mp3" },
+    { title: "Soul Tide (Instrumental)", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Soul%20Tide%20Instrumental.mp3" },
+    { title: "Unfelt", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Unfelt.mp3" },
+    { title: "Call From The Deep", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Call%20From%20The%20Deep.mp3" },
+    { title: "Mars", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Mars.mp3" },
+    { title: "Sunshine", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Sunshine.mp3" },
+    { title: "Test", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Test.mp3" },
+    { title: "To The Moon", src: "https://archive.org/download/al-vibe-fm_20261029_1428/To%20The%20Moon.mp3" },
+    { title: "Walk", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Walk.mp3" },
+    { title: "I Fall In My Dreams", src: "https://archive.org/download/al-vibe-fm_20261029_1428/I%20Fall%20In%20My%20Dreams.mp3" }
+  ],
+  lounge: [
+    { title: "I'll Make It Anyway", src: "https://archive.org/download/al-vibe-fm_20261029_1428/I%27ll%20Make%20It%20Anyway.mp3" },
+    { title: "Midnight Lights", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Midnight%20Lights.mp3" },
+    { title: "Don't Go", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Don%27t%20Go.mp3" },
+    { title: "Dream Way", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Dream%20Way.mp3" },
+    { title: "No Call, No Goodbye", src: "https://archive.org/download/al-vibe-fm_20261029_1428/No%20Call%2CNo%20Goodbye.mp3" },
+    { title: "Ocean Of Dreams", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Ocean%20Of%20Dreams.mp3" },
+    { title: "Shadows Without You", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Shadows%20Without%20You.mp3" },
+    { title: "Somewhere in Silence", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Somewhere%20in%20silence.mp3" },
+    { title: "Stay The Same", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Stay%20The%20Same.mp3" },
+    { title: "Still I Stay", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Still%20I%20Stay.mp3" },
+    { title: "Whisper", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Whisper.mp3" }
+  ],
+  club: [
+    { title: "Luma-Zyra", src: "https://archive.org/download/al-vibe-fm_20261030/Luma-Zyra.mp3" },
+    { title: "Zyrana", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Zyrana.mp3" },
+    { title: "UNKNOWN", src: "https://archive.org/download/al-vibe-fm_20261029_1428/UNKNOWN.mp3" },
+    { title: "THEY", src: "https://archive.org/download/al-vibe-fm_20261029_1428/THEY.mp3" },
+    { title: "Feel The Power", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Feel%20The%20Power.mp3" },
+    { title: "Sub Pressure", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Sub%20Pressure.mp3" },
+    { title: "No Brakes", src: "https://archive.org/download/al-vibe-fm_20261029_1428/No%20Brakes.mp3" },
+    { title: "I WANNA FEEL", src: "https://archive.org/download/al-vibe-fm_20261029_1428/I%20WANNA%20FEEL.mp3" },
+    { title: "Run", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Run%20.mp3" },
+    { title: "Last Night", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Last%20Night.mp3" },
+    { title: "Lost In The Night", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Lost%20In%20The%20Night.mp3" },
+    { title: "Miami Beach Dark Club Version", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Miami%20Beach%20Dark%20Club%20Version.mp3" },
+    { title: "NIGHTLIFE", src: "https://archive.org/download/al-vibe-fm_20261029_1428/NIGTLIFE.mp3" },
+    { title: "You Stole My Heart", src: "https://archive.org/download/al-vibe-fm_20261029_1428/You%20stole%20my%20hearth.mp3" },
+    { title: "Weekendstate", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Weekendstate.mp3" },
+    { title: "To The Moon", src: "https://archive.org/download/al-vibe-fm_20261029_1428/To%20The%20Moon.mp3" },
+    { title: "Sunshine", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Sunshine.mp3" },
+    { title: "Party All Night", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Party%20All%20Night.mp3" },
+    { title: "Mars", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Mars.mp3" },
+    { title: "Love Stop", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Love%20Stop.mp3" },
+    { title: "I Fall In My Dreams", src: "https://archive.org/download/al-vibe-fm_20261029_1428/I%20Fall%20In%20My%20Dreams.mp3" }
+  ],
+  afterDark: [
+    { title: "Your Amulet", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Your%20Amulet.mp3" },
+    { title: "Call From The Deep", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Call%20From%20The%20Deep.mp3" },
+    { title: "Beyonce The Fog", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Beyonce%20The%20Fog.mp3" },
+    { title: "Carousel Of Power", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Carousel%20Of%20Power.mp3" },
+    { title: "Deluvision", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Deluvision.mp3" },
+    { title: "Dream Way", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Dream%20Way.mp3" },
+    { title: "Infinitra", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Infinitra.mp3" },
+    { title: "MAGIC AMULET", src: "https://archive.org/download/al-vibe-fm_20261029_1428/MAGIC%20AMULET.mp3" },
+    { title: "Mars", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Mars.mp3" },
+    { title: "Night Dreams", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Night%20Dreams.mp3" },
+    { title: "Night Lounge", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Night%20Lounge.mp3" },
+    { title: "Night Song", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Night%20song.mp3" },
+    { title: "Phoryn (Instrumental)", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Phoryn.Instrumental.mp3" },
+    { title: "Phoryn", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Phoryn.mp3" },
+    { title: "Random", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Random.mp3" },
+    { title: "Rising Tension", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Rising%20Tension.mp3" },
+    { title: "Soul Tide (Instrumental)", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Soul%20Tide%20Instrumental.mp3" },
+    { title: "Soul Tide", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Soul%20Tide.mp3" },
+    { title: "Sprin", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Sprin.mp3" },
+    { title: "Sunrise In My Soul", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Sunrise%20In%20My%20Soul.mp3" },
+    { title: "Sunshine", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Sunshine.mp3" },
+    { title: "Test", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Test.mp3" },
+    { title: "THEY", src: "https://archive.org/download/al-vibe-fm_20261029_1428/THEY.mp3" },
+    { title: "To The Moon", src: "https://archive.org/download/al-vibe-fm_20261029_1428/To%20The%20Moon.mp3" },
+    { title: "Tropical House", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Tropical%20House.mp3" },
+    { title: "Tropical Walk", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Tropical%20Walk.mp3" },
+    { title: "Unfelt (Instrumental)", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Unfelt.%20Instrumental.mp3" },
+    { title: "Unfelt", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Unfelt.mp3" },
+    { title: "UNKNOWN", src: "https://archive.org/download/al-vibe-fm_20261029_1428/UNKNOWN.mp3" },
+    { title: "Walk In The Dark", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Walk%20In%20The%20Dark.mp3" },
+    { title: "Walk", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Walk.mp3" },
+    { title: "Wind In You", src: "https://archive.org/download/al-vibe-fm_20261029_1428/Wind%20InYou.mp3" }
+  ]
+};
+
+const jingles = [
+  "https://archive.org/download/al-vibe-fm_20261029_1311/Al%20Vibe%20Fm%201.mp3",
+  "https://archive.org/download/al-vibe-fm_20261029_1311/Al%20Vibe%20Fm%202.mp3",
+  "https://archive.org/download/al-vibe-fm_20261029_1311/Al%20Vibe%20Fm%203.mp3",
+  "https://archive.org/download/al-vibe-fm_20261029_1311/Al%20Vibe%20Fm%204.mp3",
+  "https://archive.org/download/al-vibe.-fm/Al%20Vibe%20Fm%205.mp3",
+  "https://archive.org/download/al-vibe.-fm/Al%20Vibe.%20Fm%206.mp3"
+];
+
+const schedule = [
+  { start: 7, end: 11, key: "morning", name: "VIBE MORNING" },
+  { start: 11, end: 17, key: "daytime", name: "VIBE DAYTIME" },
+  { start: 17, end: 20, key: "drive", name: "VIBE DRIVE" },
+  { start: 20, end: 22, key: "evening", name: "VIBE EVENING" },
+  { start: 22, end: 23, key: "lounge", name: "VIBE LOVE/LOUNGE" },
+  { start: 23, end: 2, key: "club", name: "VIBE CLUB" },
+  { start: 2, end: 7, key: "afterDark", name: "VIBE AFTER DARK" }
+];
+
+let currentAudio = new Audio();
+let isLiveMode = true;
+let songCountForJingle = 0;
+let jingleIndex = 0;
+let currentTrackObj = null;
+let lastPlayedHour = -1;
+let recentHistory = [];
+
+currentAudio.preload = "auto";
+currentAudio.setAttribute('playsinline', '');
+
+const volumeSlider = document.getElementById('volumeSlider');
+volumeSlider.oninput = (e) => {
+  currentAudio.volume = e.target.value;
+};
+
+function getCurrentScheduleKey() {
+  const currentHour = new Date().getHours();
+  for (let item of schedule) {
+    let isActive = (item.start < item.end) ? 
+      (currentHour >= item.start && currentHour < item.end) : 
+      (currentHour >= item.start || currentHour < item.end);
+    if (isActive) return item.key;
+  }
+  return "daytime";
+}
+
+function updateClock() {
+  const now = new Date();
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  document.getElementById('clock').textContent = `\( {hours}: \){minutes}`;
+  
+  const currentHour = now.getHours();
+  const scheduleContainer = document.getElementById('scheduleList');
+  scheduleContainer.innerHTML = '';
+
+  schedule.forEach(item => {
+    let isActive = (item.start < item.end) ? 
+      (currentHour >= item.start && currentHour < item.end) : 
+      (currentHour >= item.start || currentHour < item.end);
+
+    const startStr = (item.start < 10 ? '0' : '') + item.start + ':00';
+    const endStr = (item.end < 10 ? '0' : '') + item.end + ':00';
+
+    const card = document.createElement('div');
+    card.className = `schedule-card ${isActive ? 'active' : ''}`;
+    card.innerHTML = `
+      <span class="schedule-time">\( {startStr}– \){endStr}</span>
+      <span class="schedule-name">${item.name}</span>
+      \( {isActive ? `<span class="badge-onair">ON AIR</span>` : `<span class="badge-upcoming"> \){startStr}</span>`}
+    `;
+    scheduleContainer.appendChild(card);
+  });
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+function renderTopLists() {
+  const container = document.getElementById('modalTopList');
+  container.innerHTML = '';
+  const today = new Date().toISOString().slice(0, 10);
+
+  top20Chart.forEach((song, index) => {
+    const hasVoted = localStorage.getItem(`voted_\( {song.id}_ \){today}`) === 'true';
+    const card = document.createElement('div');
+    card.className = 'top-card';
+    card.onclick = () => {
+      playOnDemand(song);
+      closeTop20Modal();
+    };
+
+    card.innerHTML = `
+      <span class="top-rank">${index + 1}.</span>
+      <span class="top-title">${song.title}</span>
+      <button class="heart-btn \( {hasVoted ? 'voted' : ''}" onclick="voteForSong(event, ' \){song.id}')">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      </button>
+    `;
+    container.appendChild(card);
+  });
+
+  const monthlyContainer = document.getElementById('monthlyTopDropdown');
+  monthlyContainer.innerHTML = '';
+  monthlyTop10.forEach((song, index) => {
+    const item = document.createElement('div');
+    item.className = 'monthly-item';
+    item.onclick = () => {
+      playOnDemand(song);
+      toggleMenu();
+    };
+    item.innerHTML = `
+      <span class="monthly-rank">${index + 1}.</span>
+      <span class="monthly-name">${song.title}</span>
+    `;
+    monthlyContainer.appendChild(item);
+  });
+}
+renderTopLists();
+
+function voteForSong(event, id) {
+  event.stopPropagation();
+  const today = new Date().toISOString().slice(0, 10);
+  const key = `voted_\( {id}_ \){today}`;
+
+  if (localStorage.getItem(key)) {
+    alert("You have already voted for this song today!");
+    return;
+  }
+
+  const song = top20Chart.find(s => s.id === id);
+  if (song) {
+    song.votes += 1;
+    localStorage.setItem(key, 'true');
+    renderTopLists();
+  }
+}
+
+function getFavorites() {
+  const favs = localStorage.getItem('alvibe_favorites');
+  return favs ? JSON.parse(favs) : [];
+}
+
+function saveFavorites(favs) {
+  localStorage.setItem('alvibe_favorites', JSON.stringify(favs));
+  renderFavoritesMenu();
+  updateFavButtonState();
+}
+
+function toggleCurrentFavorite() {
+  if (!currentTrackObj || currentTrackObj.isJingle) return;
+  let favs = getFavorites();
+  const exists = favs.some(s => s.title === currentTrackObj.title);
+
+  if (exists) {
+    favs = favs.filter(s => s.title !== currentTrackObj.title);
+  } else {
+    favs.push(currentTrackObj);
+  }
+  saveFavorites(favs);
+}
+
+function removeFavorite(title) {
+  let favs = getFavorites();
+  favs = favs.filter(s => s.title !== title);
+  saveFavorites(favs);
+}
+
+function updateFavButtonState() {
+  const favBtn = document.getElementById('favMainBtn');
+  const favBtnText = document.getElementById('favBtnText');
+  if (!currentTrackObj || currentTrackObj.isJingle) {
+    favBtn.style.opacity = '0.5';
+    favBtnText.textContent = 'Add to Favorites';
+    favBtn.classList.remove('is-fav');
+    return;
+  }
+  favBtn.style.opacity = '1';
+  const favs = getFavorites();
+  const isFav = favs.some(s => s.title === currentTrackObj.title);
+  if (isFav) {
+    favBtnText.textContent = 'Added to Favorites';
+    favBtn.classList.add('is-fav');
+  } else {
+    favBtnText.textContent = 'Add to Favorites';
+    favBtn.classList.remove('is-fav');
+  }
+}
+
+function renderFavoritesMenu() {
+  const container = document.getElementById('favMenuList');
+  const favs = getFavorites();
+  if (favs.length === 0) {
+    container.innerHTML = `<div style="font-size: 11px; color: var(--muted);">No favorites added yet.</div>`;
+    return;
+  }
+  container.innerHTML = '';
+  favs.forEach(song => {
+    const item = document.createElement('div');
+    item.className = 'fav-item';
+    item.innerHTML = `
+      <span class="fav-item-title">${song.title}</span>
+      <button class="fav-item-remove" onclick="removeFavorite('${song.title}')">✕</button>
+    `;
+    item.querySelector('.fav-item-title').onclick = () => {
+      playOnDemand(song);
+      toggleMenu();
+    };
+    container.appendChild(item);
+  });
+}
+renderFavoritesMenu();
+
+function addToHistory(item) {
+  if (item.isJingle) return;
+  if (recentHistory.length > 0 && recentHistory[0].title === item.title) return;
+  
+  recentHistory.unshift(item);
+  if (recentHistory.length > 3) recentHistory.pop();
+  
+  const container = document.getElementById('recentList');
+  container.innerHTML = '';
+  recentHistory.forEach(song => {
+    const card = document.createElement('div');
+    card.className = 'recent-card';
+    card.innerHTML = `
+      <span>🎵</span>
+      <span class="recent-title">${song.title}</span>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function getNextTrack() {
+  const now = new Date();
+  const currentHour = now.getHours();
+
+  if (currentHour !== lastPlayedHour && !currentAudio.src.includes("Jingle")) {
+    lastPlayedHour = currentHour;
+    return { title: "AL VIBE FM JINGLE", src: jingles[3], isJingle: true };
+  } else if (songCountForJingle >= 4) {
+    let src = jingles[jingleIndex];
+    jingleIndex = (jingleIndex + 1) % jingles.length;
+    songCountForJingle = 0;
+    return { title: "AL VIBE FM JINGLE", src: src, isJingle: true };
+  } else {
+    const activeKey = getCurrentScheduleKey();
+    const playlist = schedulePlaylists[activeKey] || schedulePlaylists.daytime;
+    const randomIndex = Math.floor(Math.random() * playlist.length);
+    let song = playlist[randomIndex];
+    songCountForJingle++;
+    return { title: song.title, src: song.src, isJingle: false };
+  }
+}
+
+function updateMediaSession(title) {
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: title,
+      artist: 'GINVALO',
+      album: 'AL VIBE FM'
+    });
+    navigator.mediaSession.setActionHandler('play', () => currentAudio.play());
+    navigator.mediaSession.setActionHandler('pause', () => currentAudio.pause());
+    navigator.mediaSession.setActionHandler('nexttrack', () => {
+      if (isLiveMode) playNextInLive();
+    });
+  }
+}
+
+function updateUI(item) {
+  currentTrackObj = item;
+  document.getElementById('trackTitle').textContent = item.title;
+  document.getElementById('trackSub').textContent = item.isJingle ? "AL VIBE FM • JINGLE" : (isLiveMode ? "AL VIBE FM • 24/7 STREAM" : "AL VIBE FM • ON DEMAND");
+  document.getElementById('playerLabel').textContent = isLiveMode ? "NOW PLAYING" : "ON DEMAND";
+  
+  const livePill = document.getElementById('livePill');
+  const backToLiveBtn = document.getElementById('backToLiveBtn');
+
+  if (isLiveMode) {
+    livePill.style.display = 'inline-flex';
+    backToLiveBtn.style.display = 'none';
+  } else {
+    livePill.style.display = 'none';
+    backToLiveBtn.style.display = 'inline-block';
+  }
+
+  const playIcon = document.getElementById('playIcon');
+  if (currentAudio.paused) {
+    playIcon.innerHTML = `<path d="M8 5v14l11-7z"/>`;
+  } else {
+    playIcon.innerHTML = `<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>`;
+  }
+
+  updateFavButtonState();
+  updateMediaSession(item.title);
+  addToHistory(item);
+}
+
+function playNextInLive() {
+  if (!isLiveMode) return;
+  const nextItem = getNextTrack();
+  currentAudio.src = nextItem.src;
+  updateUI(nextItem);
+  currentAudio.play().catch(e => console.log("Playback error recovered:", e));
+}
+
+currentAudio.onended = () => {
+  if (isLiveMode) {
+    playNextInLive();
+  }
+};
+
+currentAudio.onerror = () => {
+  console.log("Audio stream error caught, attempting recovery...");
+  setTimeout(() => {
+    if (isLiveMode) playNextInLive();
+  }, 2000);
+};
+
+document.getElementById('playBtn').onclick = () => {
+  if (currentAudio.paused) {
+    if (!currentAudio.src || !isLiveMode) {
+      switchToLiveStream();
+    } else {
+      currentAudio.play();
+    }
+  } else {
+    currentAudio.pause();
+  }
+  if (currentTrackObj) updateUI(currentTrackObj);
+};
+
+function playOnDemand(song) {
+  isLiveMode = false;
+  currentTrackObj = { title: song.title, src: song.src, isJingle: false };
+  currentAudio.src = song.src;
+  currentAudio.play().catch(e => console.log("On demand playback error:", e));
+  updateUI(currentTrackObj);
+}
+
+function switchToLiveStream() {
+  isLiveMode = true;
+  playNextInLive();
+}
+
+function toggleMenu() {
+  const menu = document.getElementById('menuOverlay');
+  menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+}
+
+function toggleTerms() {
+  const dropdown = document.getElementById('termsDropdown');
+  dropdown.classList.toggle('open');
+}
+
+function toggleInstallGuide() {
+  const dropdown = document.getElementById('installGuideDropdown');
+  dropdown.classList.toggle('open');
+}
+
+function toggleMonthlyTop() {
+  const dropdown = document.getElementById('monthlyTopDropdown');
+  dropdown.classList.toggle('open');
+}
+
+function openTop20Modal() {
+  document.getElementById('top20Modal').style.display = 'flex';
+}
+
+function closeTop20Modal() {
+  document.getElementById('top20Modal').style.display = 'none';
+}
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(reg => console.log('SW registered:', reg.scope))
+      .catch(err => console.log('SW registration failed:', err));
+  });
+}
+</script>
+</body>
+  </html>
